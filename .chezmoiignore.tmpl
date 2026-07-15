@@ -1,5 +1,9 @@
 {{- $isWSL := contains (.chezmoi.kernel.osrelease | lower) "microsoft" -}}
 {{- $isLinuxDesktop := and (eq .chezmoi.os "linux") (not $isWSL) -}}
+# secrets/keys — never track, matches the old bare-repo's .gitignore
+.config/neomutt/accounts
+*id_rsa*
+.config/nvim/lazy-lock.json
 {{- if not $isLinuxDesktop }}
 .config/ags
 .config/hypr
