@@ -1,3 +1,5 @@
 {{- $class := promptString "class" -}}
+{{- $azureDevOpsOrg := promptString "azureDevOpsOrg" "" -}}
 [data]
     class = {{ $class | quote }}
+    azureDevOpsOrg = {{ $azureDevOpsOrg | quote }}

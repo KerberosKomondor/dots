@@ -48,7 +48,7 @@
   co = checkout
   c = commit -a
   e = config -e --global
-  cl = "!git clone git@ssh.dev.azure.com:v3/igs-vsts/IGS/$@"
+  cl = "!git clone git@ssh.dev.azure.com:v3/{{ .azureDevOpsOrg }}/$@"
   home = "!git checkout $(git home-name)"
   publish = "!git push -u origin $(git branch-name)" 
   unpublish = "!git push origin :$(git branch-name)"
