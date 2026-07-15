@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""
+Hold-to-talk dictation daemon.
+Send SIGUSR1 to start recording, SIGUSR2 to stop and transcribe.
+Sway binds: bindsym --no-repeat Pause exec pkill -USR1 -f dictate-daemon
+            bindsym --release Pause exec pkill -USR2 -f dictate-daemon
+"""
+
+import subprocess
+import tempfile
+import os
+import signal
+import time
+
+WHISPER_CLI = os.path.expanduser("~/code/rocm/whisper.cpp.git/build/bin/whisper-cli")
+MODEL = os.path.expanduser("~/code/rocm/whisper.cpp.git/models/ggml-large-v3.bin")
+AUDIO_SOURCE = subprocess.run(["pactl", "get-default-source"], capture_output=True, text=True).stdout.strip()
+
+recording_process = None
+audio_file = None
+
+def notify(message):
+    subprocess.run(["notify-send", "-t", "2000", "Dictate", message])
+
+def start_recording(signum, frame):
+    global recording_process, audio_file
+    if recording_process is not None:
+        return
+
+    audio_file = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
+    audio_file.close()
+
+    recording_process = subprocess.Popen(
+        ["ffmpeg", "-y", "-f", "pulse", "-i", AUDIO_SOURCE, "-ar", "16000", "-ac", "1", audio_file.name],
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    notify("Recording...")
+
+def stop_and_transcribe(signum, frame):
+    global recording_process, audio_file
+
+    if recording_process is None:
+        return
+
+    recording_process.send_signal(signal.SIGINT)
+    recording_process.wait()
+    recording_process = None
+
+    if os.path.getsize(audio_file.name) < 1000:
+        notify("No audio captured")
+        os.unlink(audio_file.name)
+        return
+
+    notify("Transcribing...")
+
+    result = subprocess.run(
+        [WHISPER_CLI, "-m", MODEL, "-f", audio_file.name, "-np", "-nt"],
+        capture_output=True,
+        text=True
+    )
+
+    text = result.stdout.strip().replace("\n", " ").strip()
+    os.unlink(audio_file.name)
+
+    if not text:
+        notify("No speech detected")
+        return
+
+    subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "0", "--", text])
+
+if __name__ == "__main__":
+    # Kill any existing instance (excluding self)
+    my_pid = os.getpid()
+    result = subprocess.run(["pgrep", "-f", "dictate-daemon"], capture_output=True, text=True)
+    for line in result.stdout.strip().splitlines():
+        try:
+            pid = int(line.strip())
+            if pid != my_pid:
+                os.kill(pid, signal.SIGTERM)
+        except (ValueError, ProcessLookupError):
+            pass
+
+    signal.signal(signal.SIGUSR1, start_recording)
+    signal.signal(signal.SIGUSR2, stop_and_transcribe)
+
+    # Write PID file for easy signaling
+    with open("/tmp/dictate-daemon.pid", "w") as f:
+        f.write(str(my_pid))
+
+    while True:
+        time.sleep(1)
