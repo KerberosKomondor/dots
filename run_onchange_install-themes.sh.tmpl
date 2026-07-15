@@ -1,0 +1,22 @@
+#!/bin/zsh
+set -e
+
+# Dracula GTK/icon theme — installed here instead of tracking ~4300 files
+# in the dotfiles repo. Re-runs only when this script's content changes
+# (chezmoi run_onchange_ semantics).
+
+if [ ! -d "$HOME/.themes/dracula" ]; then
+  echo "Installing Dracula GTK theme..."
+  git clone --depth 1 https://github.com/dracula/gtk.git /tmp/dracula-gtk-theme
+  mkdir -p "$HOME/.themes"
+  cp -r /tmp/dracula-gtk-theme "$HOME/.themes/dracula"
+  rm -rf /tmp/dracula-gtk-theme
+fi
+
+if [ ! -d "$HOME/.icons/Dracula" ]; then
+  echo "Installing Dracula icon theme..."
+  git clone --depth 1 https://github.com/dracula/gtk.git /tmp/dracula-icons
+  mkdir -p "$HOME/.icons"
+  cp -r /tmp/dracula-icons/icons/Dracula "$HOME/.icons/Dracula"
+  rm -rf /tmp/dracula-icons
+fi
