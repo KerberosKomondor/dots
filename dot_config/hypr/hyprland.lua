@@ -73,7 +73,7 @@ hl.config({
 -- Names were: 1=browser, 2=tmux, 3=teams, 4=rdesk
 
 -- ── Persistent workspaces ─────────────────────────────────────────────────────
--- Keep 1-4 always present (shown in waybar/switcher) even with no windows open
+-- Keep 1-4 always present (shown in AGS Bar/Workspaces) even with no windows open
 hl.workspace_rule({ workspace = "1", persistent = true })
 hl.workspace_rule({ workspace = "2", persistent = true })
 hl.workspace_rule({ workspace = "3", persistent = true })
