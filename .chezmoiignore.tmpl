@@ -1,0 +1,16 @@
+{{- $isWSL := contains (.chezmoi.kernel.osrelease | lower) "microsoft" -}}
+{{- $isLinuxDesktop := and (eq .chezmoi.os "linux") (not $isWSL) -}}
+{{- if not $isLinuxDesktop }}
+.config/ags
+.config/hypr
+.config/waybar
+.config/dunst
+.config/polybar
+.config/wireplumber
+.config/xdg-desktop-portal
+.config/environment.d
+.config/systemd
+.config/gtk-3.0
+.config/fontconfig
+.xinitrc
+{{- end }}
