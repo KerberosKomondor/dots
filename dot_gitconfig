@@ -1,0 +1,104 @@
+[core]
+  eol = lf 
+  pager = cat
+
+###############
+# MERGE STUFF #
+###############
+[merge]
+	tool = "nvim"
+
+[mergetool]
+	keepBackup = false
+	prompt = false
+
+[mergetool "nvim"]
+	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+
+
+##############
+# DIFF STUFF #
+##############
+[diff]
+  tool = nvim
+
+[difftool]
+  prompt = false
+  keepBackup = false
+
+[difftool "nvim"]
+  cmd = nvim -d
+
+[difftool "bc4"]
+  cmd = \"C:/Program Files/Beyond Compare 4/BCompare.exe\" \"$LOCAL\" \"$REMOTE\"
+
+[difftool "code"]
+  cmd = code --wait --diff $LOCAL $REMOTE
+
+###########
+# ALIASES #
+###########
+
+# you definitely want to use the full package of cmder as your terminal.  Or a real terminal on linux 
+[alias]
+  current-repo = "!basename `git rev-parse --show-toplevel`"
+  branch-name = "!git rev-parse --abbrev-ref HEAD"
+  ticket-name = "!git branch-name | cut -d / -f 2 | cut -d - -f 1-2"
+  home-name = "!git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'"
+  co = checkout
+  c = commit -a
+  e = config -e --global
+  cl = "!git clone git@ssh.dev.azure.com:v3/igs-vsts/IGS/$@"
+  home = "!git checkout $(git home-name)"
+  publish = "!git push -u origin $(git branch-name)" 
+  unpublish = "!git push origin :$(git branch-name)"
+  rpo = remote prune origin
+  fetch-home = "!git fetch -u origin $(git home-name):$(git home-name)"
+
+  #list log easy to read
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  #list log with files changed
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  #list with no colors if piping
+  lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
+
+
+  # Create a new branch from jira ticket name
+  ticket = "!f() { NAME=\"$@\"; CLEANED=`echo $NAME | sed -e 's/[[:space:]]/-/g' | tr -s '-'`; exec git checkout -b \"$BRANCHPREFIX/$CLEANED\";};f"
+  hotfix = "!f() { NAME=\"$@\"; CLEANED=`echo $NAME | sed -e 's/[[:space:]]/-/g' | tr -s '-'`; exec git checkout -b \"hotfix/$CLEANED\";};f"
+
+ # Delete any branches that have been merged
+ # See also: https://gist.github.com/robmiller/5133264
+  delete-merged-branches-master = "!git checkout master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+  #Used by a lot below
+  # Complete common post PR Approval
+  close-branch = "!f() { TOBEDELETED=$(git branch-name); git fetch-home; git rpo; git home; git branch -D \"$TOBEDELETED\";}; f"
+
+  # Merge home to branch
+  update-branch = "!f() { git fetch-home; git merge $(git home-name);};f"
+  rebase-branch = "!f() { git fetch-dev; git rebase $(git home-name);};f"
+
+  # If you want pull request aliases to work you need to download the following
+  #https://github.com/Microsoft/vsts-cli
+  create-pull-request = "!f() { exec az repos pr create --auto-complete --delete-source-branch -t $(git home-name) -r $(git current-repo) \"$@\";};f"
+
+  repo = "!f() { exec az repos \"$@\"; }; f"
+  list-branches = "!git for-each-ref --sort='-committerdate:iso8601' --format='%(committerdate:relative)|%(refname:short)|%(committername)' refs/remotes/ | column -s '|' -t"
+
+[init]
+  templatedir = ~/.git-templates
+	defaultBranch = main
+
+# Dracula theme
+[include]
+  path = ~/.gitconfig.dracula
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[safe]
+	directory = %(prefix)///wsl.localhost/Arch/home/whengely/code/Choice360
+	directory = %(prefix)///wsl.localhost/Arch/home/whengely/code
