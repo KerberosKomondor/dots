@@ -1,0 +1,19 @@
+[[plugin.prepend_fetchers]]
+url   = "*"
+run   = "git"
+group = "git"
+
+[[plugin.prepend_fetchers]]
+url   = "*/"
+run   = "git"
+group = "git"
+
+[opener]
+zathura = [
+	{ run = 'zathura "$@"', desc = "Zathura", orphan = true, for = "unix" },
+]
+
+[open]
+prepend_rules = [
+	{ mime = "application/pdf", use = "zathura" },
+]

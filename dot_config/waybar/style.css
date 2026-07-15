@@ -1,0 +1,52 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "FiraCode Nerd Font", monospace;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #282a36;
+    color: #f8f8f2;
+    border-bottom: 1px solid #44475a;
+}
+
+#workspaces button {
+    color: #8be9fd;
+    padding: 0 5px;
+    background: transparent;
+}
+
+#workspaces button.focused {
+    color: #f8f8f2;
+    background-color: #44475a;
+}
+
+#workspaces button.urgent {
+    color: #ff5555;
+}
+
+#clock.time,
+#clock.date,
+#pulseaudio {
+    color: #ff79c6;
+    padding: 0 4px;
+}
+
+#pulseaudio.muted {
+    color: #ff5555;
+}
+
+#window {
+    color: #bd93f9;
+}
+
+#custom-cmus {
+    color: #8be9fd;
+    padding: 0 4px;
+}
+
+#tray {
+    padding: 0 4px;
+}

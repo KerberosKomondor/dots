@@ -1,0 +1,934 @@
+// ~/.config/ags/style.scss
+* {
+  font-family: "CommitMono Nerd Font", monospace;
+  font-size: 14px;
+  min-height: 0;
+}
+
+button,
+button:focus,
+button:hover,
+button:active,
+button:checked,
+button:focus:active {
+  border-color: transparent;
+  border-image: none;
+  box-shadow: none;
+  outline: none;
+  background-image: none;
+}
+
+.Bar {
+  background: transparent;
+  color: #f8f8f2;
+
+  > box {
+    background: #282a36;
+    border-bottom: 1px solid #44475a;
+    min-height: 32px;
+    padding: 0;
+  }
+
+  button {
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.bar-left {
+  padding: 0;
+}
+
+.bar-right {
+  padding: 0;
+  padding-right: 12px;
+}
+
+.bar-divider {
+  background: #44475a;
+  min-width: 1px;
+  margin: 8px 4px;
+}
+
+/* Dashboard button */
+.dashboard-button {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #44475a;
+  border-radius: 0;
+  padding: 0 12px;
+  color: #8b8fa8;
+  min-height: 32px;
+
+  &:hover {
+    color: #bd93f9;
+    background: transparent;
+  }
+}
+
+/* Workspaces */
+.workspaces {
+  padding: 0 8px;
+}
+
+.ws-dot {
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 4px;
+  background: #44475a;
+
+  &.occupied {
+    background: #ff79c6;
+  }
+
+  &.active {
+    background: #bd93f9;
+  }
+}
+
+/* Window title */
+.window-title {
+  color: #bd93f9;
+  padding: 0 4px;
+}
+
+/* Volume */
+.volume {
+  color: #ff79c6;
+}
+
+/* Clock widget (stacked button) */
+.clock-widget {
+  background: transparent;
+  border-radius: 4px;
+  padding: 4px 6px;
+
+  &:hover { background: rgba(255, 121, 198, 0.12); }
+}
+
+.clock-time {
+  color: #ff79c6;
+  font-size: 12px;
+}
+
+.clock-date {
+  color: #bd93f9;
+  font-size: 9px;
+}
+
+/* Separator dot */
+.bar-sep {
+  color: #44475a;
+  margin: 0 2px;
+}
+
+/* Cmus now playing */
+.cmus {
+  color: #8be9fd;
+  margin-right: 4px;
+}
+
+/* Notifications */
+.notifications {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #ff79c6;
+  padding: 0 4px;
+
+  &:hover { background: #44475a; }
+}
+
+/* Tray */
+.tray {
+}
+
+.tray-item {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 2px;
+  min-width: 20px;
+  min-height: 20px;
+
+  &:hover {
+    background: #44475a;
+  }
+
+  icon {
+    min-width: 16px;
+    min-height: 16px;
+  }
+}
+
+/* Tray right-click menu */
+popover.tray-menu {
+  > contents {
+    background: #282a36;
+    border: 1px solid #6272a4;
+    border-radius: 6px;
+    padding: 4px;
+  }
+
+  > arrow {
+    background: #282a36;
+  }
+
+  modelbutton.flat {
+    color: #f8f8f2;
+    background: transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+
+    label {
+      color: #f8f8f2;
+    }
+
+    &:hover {
+      background: #44475a;
+    }
+
+    &:disabled,
+    &:disabled label {
+      color: #6272a4;
+    }
+  }
+
+  separator {
+    background: #44475a;
+    min-height: 1px;
+    margin: 4px 4px;
+  }
+}
+
+/* Weather bar button */
+.weather-btn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #8be9fd;
+  padding: 0 4px;
+  margin-right: 4px;
+
+  &:hover { background: #44475a; }
+}
+
+/* Weather popup */
+.WeatherPopup {
+  background: transparent;
+
+  .weather-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 360px;
+  }
+
+  .weather-current {
+    background: #44475a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+
+  .weather-icon { font-size: 38px; }
+  .weather-temp { font-size: 28px; color: #f8f8f2; }
+  .weather-desc { font-size: 11px; color: #8be9fd; margin-top: 2px; }
+
+  .weather-meta {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #8be9fd;
+  }
+
+  .weather-sep { color: #44475a; }
+
+  .weather-forecast-label {
+    font-size: 10px;
+    color: #ff79c6;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+
+  .weather-forecast { margin-top: 4px; }
+
+  .forecast-day {
+    background: #44475a;
+    border-radius: 7px;
+    padding: 8px 4px;
+    min-width: 0;
+  }
+
+  .forecast-name { font-size: 10px; color: #8be9fd; }
+  .forecast-icon { font-size: 20px; }
+  .forecast-hi { font-size: 12px; color: #f8f8f2; }
+  .forecast-lo { font-size: 11px; color: #8be9fd; }
+
+  .weather-hourly { margin-top: 4px; }
+
+  .hourly-row {
+    padding: 3px 0;
+    border-bottom: 1px solid #383a4a;
+    &:last-child { border-bottom: none; }
+  }
+
+  .hourly-time   { font-size: 10px; color: #8be9fd; min-width: 38px; }
+  .hourly-icon   { font-size: 14px; min-width: 20px; }
+  .hourly-bar-wrap {
+    min-height: 6px;
+    background: #383a4a;
+    border-radius: 3px;
+  }
+  .hourly-bar    { min-height: 6px; border-radius: 3px; }
+  .hourly-temp   { font-size: 11px; color: #f8f8f2; min-width: 32px; }
+  .hourly-precip { font-size: 9px; color: #bd93f9; min-width: 30px; }
+}
+
+/* Todo button */
+.todo-button {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #44475a;
+  border-radius: 0;
+  padding: 0 12px;
+  color: #8b8fa8;
+  min-height: 32px;
+
+  &:hover {
+    color: #bd93f9;
+    background: transparent;
+  }
+}
+
+.todo-icon {
+  font-size: 14px;
+}
+
+.todo-badge {
+  background: #ff79c6;
+  color: #282a36;
+  border-radius: 9999px;
+  min-width: 12px;
+  min-height: 12px;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 0 2px;
+  margin-top: 2px;
+  margin-right: 2px;
+}
+
+
+.TodoPopup {
+  background: transparent;
+
+  .todo-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 12px;
+    min-width: 320px;
+    margin-top: 2px;
+  }
+
+  .todo-tabs {
+    padding-bottom: 8px;
+  }
+
+  .todo-tab {
+    background: #44475a;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 8px;
+    color: #8b8fa8;
+    font-size: 12px;
+    font-weight: bold;
+
+    &:hover     { background: #bd93f9; color: #282a36; }
+    &.today     { color: #8b8fa8; }
+    &.has-items { color: #282a36; background: #ff79c6; }
+    &.active    { background: #bd93f9; color: #282a36; }
+  }
+
+  .todo-divider {
+    background: #44475a;
+    min-height: 1px;
+    margin: 0 0 8px 0;
+  }
+
+  .todo-list {
+    min-height: 20px;
+    padding: 0 2px;
+  }
+
+  .todo-empty {
+    color: #44475a;
+    font-size: 12px;
+    padding: 8px 0;
+  }
+
+  .todo-item {
+    border-radius: 5px;
+    padding: 2px 4px;
+
+    &:hover { background: #44475a22; }
+
+    &.done {
+      .todo-text { color: #8be9fd; text-decoration: line-through; }
+    }
+  }
+
+  .todo-check {
+    background: transparent;
+    border: none;
+    padding: 0 4px 0 0;
+    color: #bd93f9;
+    min-width: 0;
+
+    &:hover { color: #f8f8f2; background: transparent; }
+  }
+
+  .todo-checkmark {
+    color: #8be9fd;
+  }
+
+  .todo-text {
+    color: #f8f8f2;
+    font-size: 13px;
+  }
+
+  .todo-delete {
+    background: transparent;
+    border: none;
+    padding: 0 2px;
+    color: #6272a4;
+    font-size: 12px;
+    min-width: 0;
+
+    &:hover { color: #ff5555; background: transparent; }
+  }
+
+  .todo-add-btn {
+    background: transparent;
+    border: none;
+    border-top: 1px solid #44475a;
+    border-radius: 0 0 8px 8px;
+    padding: 4px;
+    color: #bd93f9;
+    font-size: 18px;
+    margin-top: 6px;
+
+    &:hover { color: #f8f8f2; background: transparent; }
+  }
+
+  .todo-add-form {
+    border-top: 1px solid #44475a;
+    padding-top: 8px;
+    margin-top: 6px;
+  }
+
+  .todo-add-entry {
+    background: #44475a;
+    border: 1px solid #6272a4;
+    border-radius: 5px;
+    color: #f8f8f2;
+    padding: 4px 8px;
+    font-size: 13px;
+
+    &:focus { border-color: #bd93f9; }
+  }
+
+  .todo-mode-btn {
+    background: #44475a;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    color: #8b8fa8;
+    font-size: 11px;
+
+    &.active { background: #bd93f9; color: #282a36; }
+    &:hover { background: #bd93f9; color: #282a36; }
+  }
+
+  .todo-day-btn {
+    background: #44475a;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 5px;
+    color: #8b8fa8;
+    font-size: 10px;
+    min-width: 0;
+
+    &.active { background: #bd93f9; color: #282a36; }
+    &:hover { background: #6272a4; color: #f8f8f2; }
+  }
+
+  .todo-save-btn {
+    background: #bd93f9;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 12px;
+    color: #282a36;
+    font-size: 12px;
+
+    &:hover { background: #ff79c6; color: #282a36; }
+  }
+
+  .todo-cancel-btn {
+    background: transparent;
+    border: none;
+    padding: 3px 8px;
+    color: #ff79c6;
+    font-size: 12px;
+
+    &:hover { color: #f8f8f2; background: transparent; }
+  }
+}
+
+/* Transparent click-catcher backdrop */
+.Backdrop {
+  background: transparent;
+  > box { background: transparent; }
+}
+
+/* Dashboard popup */
+.Dashboard {
+  background: transparent;
+
+  .dashboard-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 260px;
+    margin-top: 2px;
+  }
+
+  .dash-profile {
+    background: #44475a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .dash-profile-icon {
+    font-size: 26px;
+    background: #bd93f9;
+    border-radius: 8px;
+    padding: 6px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .dash-profile-name { color: #ff79c6; font-size: 15px; }
+  .dash-profile-sub  { color: #8be9fd; font-size: 11px; }
+
+  .dash-power { margin-bottom: 10px; }
+
+  .dash-power-btn {
+    border-radius: 7px;
+    border: none;
+    padding: 9px 4px;
+    font-size: 11px;
+
+    &.shutdown { background: #3d1f1f; color: #ff5555; }
+    &.restart  { background: #3d2a1f; color: #ffb86c; }
+    &.logout   { background: #2a1f3d; color: #bd93f9; }
+  }
+
+  .dash-power-icon { font-size: 18px; margin-bottom: 4px; }
+
+  .dash-divider {
+    background: #44475a;
+    min-height: 1px;
+    margin: 0 0 10px 0;
+  }
+
+  .dash-toggle {
+    background: #44475a;
+    border: none;
+    border-radius: 7px;
+    padding: 9px 4px;
+    color: #8b8fa8;
+
+    &.on { background: #1e3a2e; }
+    &.on .dash-toggle-icon { color: #50fa7b; }
+  }
+
+  .dash-toggle-icon  { font-size: 18px; margin-bottom: 4px; }
+  .dash-toggle-label { font-size: 11px; font-weight: bold; color: #f8f8f2; }
+}
+
+/* Calendar popup */
+.CalendarPopup {
+  background: transparent;
+
+  .calendar-box {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 176px;
+    margin: 6px;
+  }
+
+  .calendar-nav-arrow {
+    background: transparent;
+    border: none;
+    color: #6272a4;
+    padding: 1px 6px;
+    border-radius: 3px;
+
+    &:hover { background: #44475a; color: #f8f8f2; }
+  }
+
+  .calendar-nav-label {
+    color: #bd93f9;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .calendar-dow {
+    color: #6272a4;
+    font-size: 13px;
+    min-width: 26px;
+  }
+
+  .calendar-day {
+    color: #f8f8f2;
+    font-size: 14px;
+    min-width: 26px;
+    border-radius: 3px;
+
+    &.today {
+      background: #ff79c6;
+      color: #282a36;
+      font-weight: bold;
+    }
+  }
+
+  .calendar-empty {
+    min-width: 26px;
+    color: transparent;
+  }
+}
+
+/* Volume popup */
+.VolumePopup {
+  background: transparent;
+
+  .volume-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 280px;
+    margin: 6px;
+  }
+
+  .volume-master {
+    .volume-icon-btn {
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 16px;
+
+      &:hover { background: #44475a; }
+    }
+
+    .volume-slider {
+      trough { background: #44475a; border-radius: 3px; min-height: 6px; }
+      highlight { background: #bd93f9; border-radius: 3px; }
+      slider { background: #f8f8f2; border-radius: 50%; min-width: 12px; min-height: 12px; }
+    }
+
+    .volume-pct {
+      color: #6272a4;
+      font-size: 12px;
+      min-width: 36px;
+    }
+  }
+
+  .volume-tabs {
+    margin-top: 4px;
+  }
+
+  .volume-tab {
+    background: #44475a;
+    color: #f8f8f2;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 0;
+    font-size: 12px;
+
+    &.active {
+      background: #bd93f9;
+      color: #282a36;
+      font-weight: bold;
+    }
+
+    &:hover { background: #6272a4; }
+  }
+
+  .volume-tab-content {
+    margin-top: 4px;
+  }
+
+  .volume-device {
+    background: #44475a;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: #f8f8f2;
+
+    &.active {
+      background: #bd93f9;
+      color: #282a36;
+    }
+
+    &:hover { background: #6272a4; }
+  }
+
+  .volume-app-row {
+    .volume-app-name {
+      color: #f8f8f2;
+      font-size: 12px;
+    }
+
+    .volume-app-slider {
+      min-width: 90px;
+
+      trough { background: #44475a; border-radius: 3px; min-height: 6px; }
+      highlight { background: #bd93f9; border-radius: 3px; }
+      slider { background: #f8f8f2; border-radius: 50%; min-width: 10px; min-height: 10px; }
+    }
+
+    .volume-app-icon-btn {
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 4px;
+
+      &:hover { background: #44475a; }
+
+      &.muted { opacity: 0.4; }
+    }
+  }
+
+  .volume-empty {
+    color: #6272a4;
+    font-size: 12px;
+    padding: 8px 0;
+  }
+
+  .volume-divider {
+    background: #44475a;
+    min-height: 1px;
+    margin: 8px 0;
+  }
+}
+
+/* Notification popups */
+.NotificationPopups {
+  background: transparent;
+
+  .notif-popups {
+    margin: 10px 10px 0 0;
+  }
+
+  .notif-popup-row {
+    background: #282a36;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 320px;
+    border: 2px solid #8be9fd;
+    border-left-width: 8px;
+
+    &.low { border-color: #bd93f9; }
+    &.normal { border-color: #8be9fd; }
+    &.critical {
+      border-color: #ff79c6;
+      background: #282a36;
+    }
+  }
+
+  .notif-icon {
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .notif-app {
+    font-size: 11px;
+    color: #8be9fd;
+    text-transform: uppercase;
+  }
+
+  .notif-title {
+    color: #f8f8f2;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .notif-body {
+    color: #f8f8f2;
+    opacity: 0.85;
+    font-size: 14px;
+  }
+
+  .notif-actions {
+    margin-top: 8px;
+  }
+
+  .notif-action-btn {
+    background: #44475a;
+    color: #f8f8f2;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 13px;
+
+    &:hover { background: #6272a4; }
+  }
+
+  .notif-progress {
+    background: #44475a;
+    min-height: 3px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+
+  .notif-progress-bar {
+    background: #8be9fd;
+    min-height: 3px;
+    border-radius: 2px;
+  }
+
+  .notif-popup-count {
+    font-size: 11px;
+    color: #6272a4;
+  }
+
+  .notif-dismiss-all {
+    background: transparent;
+    border: none;
+    color: #8be9fd;
+    font-size: 12px;
+    padding: 0 4px;
+
+    &:hover { background: #44475a; }
+  }
+
+  .notif-overflow {
+    background: #44475a;
+    border: none;
+    border-radius: 8px;
+    color: #f8f8f2;
+    font-size: 12px;
+    padding: 6px;
+
+    &:hover { background: #6272a4; }
+  }
+}
+
+/* Notification history panel */
+.NotificationHistory {
+  background: transparent;
+
+  .notif-history {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 12px;
+    min-width: 340px;
+    margin-top: 2px;
+  }
+
+  .notif-history-header {
+    margin-bottom: 8px;
+  }
+
+  .notif-history-clear {
+    background: transparent;
+    border: none;
+    color: #8be9fd;
+    font-size: 13px;
+    padding: 0 4px;
+
+    &:hover { background: #44475a; }
+  }
+
+  .notif-history-divider {
+    background: #44475a;
+    min-height: 1px;
+    margin: 0 0 8px 0;
+  }
+
+  .notif-history-list {
+    min-height: 20px;
+  }
+
+  .notif-history-empty {
+    color: #44475a;
+    font-size: 14px;
+    padding: 8px 0;
+  }
+
+  .notif-history-row {
+    border-radius: 5px;
+    padding: 4px;
+
+    &:hover { background: #44475a22; }
+  }
+
+  .notif-history-app {
+    font-size: 13px;
+    color: #6272a4;
+
+    &.low { color: #bd93f9; }
+    &.normal { color: #8be9fd; }
+    &.critical { color: #ff79c6; }
+  }
+
+  .notif-history-title {
+    color: #f8f8f2;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .notif-history-body {
+    color: #f8f8f2;
+    opacity: 0.8;
+    font-size: 13px;
+  }
+
+  .notif-history-x {
+    background: transparent;
+    border: none;
+    color: #6272a4;
+    font-size: 13px;
+    padding: 0 2px;
+
+    &:hover { color: #f8f8f2; }
+  }
+
+  .notif-history-group {
+    margin-bottom: 2px;
+  }
+
+  .notif-history-app-header {
+    background: transparent;
+    border: none;
+    color: #6272a4;
+    font-size: 13px;
+    padding: 4px;
+
+    &:hover { background: #44475a22; }
+  }
+}
+
+.notif-preview-image {
+  margin-top: 8px;
+  border-radius: 4px;
+}

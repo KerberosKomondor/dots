@@ -1,0 +1,10 @@
+[Unit]
+Description=Solaar
+
+[Service]
+ExecStart=/usr/bin/solaar
+
+[Install]
+WantedBy=default.target
+
+

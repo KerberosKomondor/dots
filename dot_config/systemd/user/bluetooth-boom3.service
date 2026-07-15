@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto-connect UE Boom 3 Bluetooth speaker
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/boom3-connect.sh
+ExecStop=%h/.local/bin/boom3-disconnect.sh
+RemainAfterExit=yes
+TimeoutStopSec=5
+
+[Install]
+WantedBy=default.target

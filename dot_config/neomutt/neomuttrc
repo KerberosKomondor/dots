@@ -1,0 +1,18 @@
+# vim: filetype=muttrc
+#
+# Originally taken from https://gideonwolfe.com/posts/workflow/neomutt/intro/
+
+source ~/.config/neomutt/settings
+source ~/.config/neomutt/dracula.muttrc
+source ~/.config/neomutt/mappings
+
+# Accounts
+
+source ~/.config/neomutt/accounts/kerberoskomondor-proton
+folder-hook $folder 'source ~/.config/neomutt/accounts/kerberoskomondor-proton'
+
+source ~/.config/neomutt/accounts/work-outlook
+folder-hook $folder 'source ~/.config/neomutt/accounts/work-outlook'
+
+#source ~/.config/neomutt/accounts/main
+#folder-hook $folder 'source ~/.config/neomutt/accounts/main'
