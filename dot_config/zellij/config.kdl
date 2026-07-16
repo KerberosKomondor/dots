@@ -320,8 +320,7 @@ themes {
 
 theme "purplepink"
 
-// Matches the tmux 4-window convention: nvim / claude / dev / storybook
-default_layout "dev"
+default_layout "blank"
 
 mouse_mode true
 copy_on_select true
