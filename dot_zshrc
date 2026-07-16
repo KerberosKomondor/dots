@@ -183,7 +183,7 @@ dnbuild() {
 }
 
 if [[ $(uname) == 'Darwin' ]]; then
-  source .zshrc.mac.zsh
+  source ~/.zshrc.mac.zsh
 fi
 
 if command -v systemctl > /dev/null; then

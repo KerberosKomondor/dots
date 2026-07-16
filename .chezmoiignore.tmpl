@@ -1,4 +1,7 @@
-{{- $isWSL := contains (.chezmoi.kernel.osrelease | lower) "microsoft" -}}
+{{- $isWSL := false -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{- $isWSL = contains (.chezmoi.kernel.osrelease | lower) "microsoft" -}}
+{{- end -}}
 {{- $isLinuxDesktop := and (eq .chezmoi.os "linux") (not $isWSL) -}}
 # secrets/keys — never track, matches the old bare-repo's .gitignore
 .config/neomutt/accounts

@@ -47,6 +47,24 @@ paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock 
  noto-fonts-emoji-git pugixml
 ```
 
+## macOS
+
+[Homebrew](https://brew.sh)
+
+```zsh
+brew install --cask kitty firefox
+brew install --cask nikitabobko/tap/aerospace
+brew install FelixKratz/formulae/borders
+```
+
+AeroSpace (tiling WM, replaces Hyprland — doesn't run on macOS) needs
+Accessibility permission granted in System Settings → Privacy & Security →
+Accessibility; the prompt/list entry can end up hidden behind other windows.
+The app launcher (rofi equivalent) and emoji picker are handled natively via
+Spotlight (`Cmd+Space`) and Character Viewer (`Ctrl+Cmd+Space`) — no extra
+app needed. See [docs/macos.md](docs/macos.md) for the full window-manager
+config, keybindings, and what didn't port over from the Hyprland setup.
+
 ## Install NVM
 
 ```zsh

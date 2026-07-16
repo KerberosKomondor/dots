@@ -1,0 +1,188 @@
+# AeroSpace config — ported from ~/.config/hypr/hyprland.lua
+# Mod key is Alt (not Cmd) so it never collides with macOS system shortcuts.
+#
+# Things that could NOT be ported (no AeroSpace / macOS equivalent):
+#   - rofi, cliphist, pactl volume, dictate-daemon, systemd autostart daemons,
+#     xfreerdp/teams-tile helper scripts — all Linux-specific tooling.
+#   - Volume keys: macOS hardware media keys already control volume natively.
+#   - Window rounding / blur / shadow / animations: macOS WindowServer draws
+#     window chrome, not the tiling WM — AeroSpace can't touch this.
+#   - "focusmaster" (dwindle's master-window concept): AeroSpace uses a BSP
+#     tree like dwindle, but has no master/stack notion, so there's no bind
+#     for mod+A here.
+#   - Exiting the WM (mod+shift+E in Hyprland): no macOS analog, dropped.
+#   - Mouse drag/resize of floating windows: native macOS titlebar dragging
+#     already does this, no bind needed.
+#
+# Approximated (closest available primitive, not identical behavior):
+#   - dwindle "preselect" direction (mod+backslash/minus) -> join-with
+#   - dwindle resize by x/y pixels -> resize smart +/-50
+#   - togglesplit -> layout tiles horizontal/vertical toggle
+#   - rofi launcher (mod+D) -> native Spotlight (Cmd+Space), no AeroSpace
+#     bind needed. Tried Raycast first; removed it (see git history) in
+#     favor of Spotlight, which covers the same need with zero setup.
+#   - lock (was double-bound to ctrl+L in the original Hyprland config,
+#     conflicting with resize) -> moved to alt-ctrl-shift-l here
+
+config-version = 2
+
+after-startup-command = [
+  'exec-and-forget borders active_color=0xff8be9fd inactive_color=0xff44475a width=2.0 style=round'
+]
+
+start-at-login = true
+auto-reload-config = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+
+# dwindle in Hyprland ~= tiles (BSP) in AeroSpace
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Native macOS banner notification showing the workspace you just switched to
+exec-on-workspace-change = ['/bin/bash', '-c', 'osascript -e "display notification \"Workspace $AEROSPACE_FOCUSED_WORKSPACE\" with title \"AeroSpace\""']
+
+key-mapping.preset = 'qwerty'
+
+# Matches hyprland general { gaps_in = 4, gaps_out = 8 }
+gaps.inner.horizontal = 4
+gaps.inner.vertical =   4
+gaps.outer.left =       8
+gaps.outer.bottom =     8
+gaps.outer.top =        8
+gaps.outer.right =      8
+
+# ── Window -> workspace rules ──────────────────────────────────────────────
+# Mirrors hyprland window_rule workspace assignments (1=browser, 3=teams, 4=rdesk)
+# Browser is Brave here (not Firefox, which the original Hyprland config used)
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'net.kovidgoyal.kitty'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.rdc.macos'
+run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['move-node-to-workspace 10']
+
+[[on-window-detected]]
+if.app-id = 'com.fidelity.activetrader'
+run = ['move-node-to-workspace 9']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = ['move-node-to-workspace 8']
+
+[mode.main.binding]
+
+    # Terminal (kitty, same as Hyprland's $term)
+    alt-enter = 'exec-and-forget open -a kitty'
+
+    # Kill focused window
+    alt-shift-q = 'close'
+
+    # App launcher (rofi) and emoji picker: no bind needed, both handled
+    # natively — Cmd+Space (Spotlight), Ctrl+Cmd+Space (Character Viewer)
+
+    # Focus movement (arrows + hjkl, same as Hyprland)
+    alt-left  = 'focus left'
+    alt-h     = 'focus left'
+    alt-down  = 'focus down'
+    alt-j     = 'focus down'
+    alt-up    = 'focus up'
+    alt-k     = 'focus up'
+    alt-right = 'focus right'
+    alt-l     = 'focus right'
+
+    # Move window
+    alt-shift-left  = 'move left'
+    alt-shift-h     = 'move left'
+    alt-shift-down  = 'move down'
+    alt-shift-j     = 'move down'
+    alt-shift-up    = 'move up'
+    alt-shift-k     = 'move up'
+    alt-shift-right = 'move right'
+    alt-shift-l     = 'move right'
+
+    # Split orientation (approximates dwindle preselect r/d)
+    alt-backslash = 'join-with right'
+    alt-minus     = 'join-with down'
+
+    # Resize (approximates directional pixel resize)
+    alt-ctrl-right = 'resize smart +50'
+    alt-ctrl-left  = 'resize smart -50'
+    alt-ctrl-up    = 'resize smart -50'
+    alt-ctrl-down  = 'resize smart +50'
+
+    # Fullscreen
+    alt-f = 'fullscreen'
+
+    # Layout toggle (approximates dwindle togglesplit)
+    alt-s = 'layout tiles horizontal vertical'
+
+    # Toggle floating (was mod+space in Hyprland, moved to mod+t)
+    alt-t = 'layout floating tiling'
+
+    # Workspaces 1-10 (0 = workspace 10, matching Hyprland)
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
+    alt-0 = 'workspace 10'
+
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
+    alt-shift-0 = 'move-node-to-workspace 10'
+
+    # Move current workspace to the other monitor
+    # (Hyprland targeted specific outputs DP-1/DP-2; those don't exist on this
+    # Mac, so this uses next/prev. Once your monitor setup is known, swap for
+    # a named pattern — see `aerospace list-monitors` — e.g. 'main' or 'secondary'.)
+    alt-ctrl-period = 'move-workspace-to-monitor --wrap-around next'
+    alt-ctrl-comma  = 'move-workspace-to-monitor --wrap-around prev'
+
+    # Reload config
+    alt-shift-c = 'reload-config'
+
+    # Lock screen (native macOS lock shortcut, ctrl+cmd+Q)
+    alt-ctrl-shift-l = '''exec-and-forget osascript -e '
+    tell application "System Events" to keystroke "q" using {control down, command down}'
+    '''
+
+    # App launches
+    alt-b       = 'exec-and-forget open -a "Brave Browser"'
+    alt-shift-e = 'exec-and-forget open -a Finder'
+    alt-w       = 'exec-and-forget open -a "Microsoft Remote Desktop"'
+    # Teams launch dropped — use Raycast (alt-d) instead. Workspace 3
+    # auto-assignment rule for Teams above still applies regardless of
+    # how it's launched.
+
+    # Screenshot (region), same idea as hyprshot --mode region
+    alt-x = 'exec-and-forget screencapture -i ~/Desktop/screenshot-$(date +%Y%m%d-%H%M%S).png'
