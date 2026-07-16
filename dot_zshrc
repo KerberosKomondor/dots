@@ -152,9 +152,6 @@ fi
 
 export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
 
-# https://www.atlassian.com/git/tutorials/dotfiles
-alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
-
 alias l='eza'
 alias la='eza -a'
 alias ll='eza -lah'
