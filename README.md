@@ -55,6 +55,7 @@ paru -S google-chrome remmina-plugin-rdesktop freerdp betterlockscreen xss-lock 
 brew install --cask kitty firefox
 brew install --cask nikitabobko/tap/aerospace
 brew install FelixKratz/formulae/borders
+brew install --cask alt-tab
 ```
 
 AeroSpace (tiling WM, replaces Hyprland — doesn't run on macOS) needs

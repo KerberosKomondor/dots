@@ -15,11 +15,18 @@ compositor, so it needs Accessibility permission but no SIP changes.
 ```zsh
 brew install --cask nikitabobko/tap/aerospace
 brew install FelixKratz/formulae/borders
+brew install --cask alt-tab
 ```
 
 AeroSpace needs Accessibility permission (System Settings → Privacy &
 Security → Accessibility). The prompt/list entry can end up hidden behind
 other windows — check there before assuming it didn't appear.
+
+AltTab replaces macOS's native Cmd+Tab (which only cycles whole apps) with a
+per-window switcher — useful since AeroSpace can put multiple windows of the
+same app across different workspaces. Its own settings live in macOS
+`defaults` (`com.lwouis.alt-tab-macos`), not a plain-text config file, so
+they aren't tracked here — just the install.
 
 ## Window Manager Setup
 
