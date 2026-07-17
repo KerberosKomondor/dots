@@ -33,7 +33,7 @@ they aren't tracked here — just the install.
 - Mod key: **Alt** (not Cmd/Super — Cmd collides with macOS system shortcuts like Cmd+Q/Cmd+W)
 - Layout: `tiles` (BSP), matching Hyprland's dwindle
 - Theme: Dracula (border active = `#8be9fd`, inactive = `#44475a`), drawn by JankyBorders since AeroSpace has no decoration of its own
-- Workspaces: 1=browser (Brave), 2=kitty, 3=Teams, 4=Remote Desktop, 10=Messages — assigned via `on-window-detected` rules, mirroring the hyprland.lua `window_rule` workspace assignments
+- Workspaces: 1=browser (Brave), 2=kitty, 3=Teams, 4=Remote Desktop, 8=Music, 9=Active Trader, 10=Messages — assigned via `on-window-detected` rules. Workspaces 1-4/10 loosely mirror `hyprland.lua`'s `window_rule` assignments; 8 and 9 are mac-only apps (Music.app, Active Trader Pro) with no Hyprland equivalent, so the two configs have diverged beyond a straight mirror.
 - Launcher / emoji picker: no bind, handled natively — Spotlight (`Cmd+Space`) and Character Viewer (`Ctrl+Cmd+Space`). Raycast was tried first (see git history) but removed in favor of these built-ins.
 
 ## Approximated / Dropped from the Hyprland config
