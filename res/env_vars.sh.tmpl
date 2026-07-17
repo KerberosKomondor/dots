@@ -23,8 +23,14 @@ export Azure_API_TOKEN="{{ (bitwarden "item" "azure-api-token").login.password }
 export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://pkgs.dev.azure.com/igs-vsts/_packaging/IGS%40Local/nuget/v3/index.json","username":"docs","password":"{{ (bitwarden "item" "azure-api-token").login.password }}"}]}'
 {{- end }}
 
-# Unlock BitWarden and export session (skip if already unlocked)
+# Unlock BitWarden once per login, cache session in runtime dir (tmpfs, cleared on logout)
 # Run `bw login` first if not yet logged in
-if ! bw status 2>/dev/null | grep -q '"status":"unlocked"'; then
+BW_SESSION_CACHE="${XDG_RUNTIME_DIR:-/tmp}/bw_session"
+if [ -f "$BW_SESSION_CACHE" ]; then
+  export BW_SESSION=$(cat "$BW_SESSION_CACHE")
+fi
+if ! bw status --session "$BW_SESSION" 2>/dev/null | grep -q '"status":"unlocked"'; then
   export BW_SESSION=$(bw unlock --raw)
+  install -m 600 /dev/null "$BW_SESSION_CACHE"
+  printf '%s' "$BW_SESSION" > "$BW_SESSION_CACHE"
 fi
