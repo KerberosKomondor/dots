@@ -12,6 +12,15 @@ export JIRA_API_TOKEN="{{ (bitwarden "item" "jira-api-token").login.password }}"
 export ATLASSIAN_CLOUD_ID="{{ (bitwarden "item" "atlassian-cloud-id").login.password }}"
 export ATLASSIAN_EMAIL="{{ (bitwarden "item" "jira-api-token").login.username }}"
 export ATLASSIAN_API_TOKEN="{{ (bitwarden "item" "jira-api-token").login.password }}"
+
+# Azure DevOps PAT (dev.azure.com/igs-vsts) — not nuget-specific, reused wherever an
+# Azure DevOps token is needed. Regenerate at:
+#   https://dev.azure.com/igs-vsts/_usersSettings/tokens
+export Azure_API_TOKEN="{{ (bitwarden "item" "azure-api-token").login.password }}"
+
+# Feeds dotnet/NuGet restore against the IGS Artifacts feed (CRM repo). Sidesteps the
+# flaky macOS MSAL broker used by `dotnet restore --interactive` / CredentialProvider.Microsoft.
+export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://pkgs.dev.azure.com/igs-vsts/_packaging/IGS%40Local/nuget/v3/index.json","username":"docs","password":"{{ (bitwarden "item" "azure-api-token").login.password }}"}]}'
 {{- end }}
 
 # Unlock BitWarden and export session (skip if already unlocked)
