@@ -94,11 +94,13 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 # Use kitty's SSH kitten when inside kitty — auto-copies xterm-kitty terminfo to remote
 [[ "$TERM" == "xterm-kitty" ]] && alias ssh="kitty +kitten ssh"
 
-# dotnet
-export DOTNET_ROOT="/usr/share/dotnet"
-export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
-export DOTNET_RUNTIME_IDENTIFIER=linux-x64
-export DOTNET_RUNTIME_ID=linux-x64
+# dotnet (Linux/WSL only — /usr/share/dotnet doesn't exist on macOS and breaks SDK resolution)
+if [[ $(uname) != 'Darwin' ]]; then
+  export DOTNET_ROOT="/usr/share/dotnet"
+  export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
+  export DOTNET_RUNTIME_IDENTIFIER=linux-x64
+  export DOTNET_RUNTIME_ID=linux-x64
+fi
 # zsh parameter completion for the dotnet CLI
 
 _dotnet_zsh_complete()
@@ -164,19 +166,25 @@ _dn_select_file() {
   find . -name "$1" | fzf
 }
 
+_dn_rid_args() {
+  # -r/--runtime-identifier only applies on Linux/WSL where DOTNET_RUNTIME_IDENTIFIER is set;
+  # on macOS it's unset, so omit the flag entirely rather than passing it an empty value.
+  [ -n "$DOTNET_RUNTIME_IDENTIFIER" ] && echo "-r" "$DOTNET_RUNTIME_IDENTIFIER"
+}
+
 dnrun() {
   local project=$(_dn_select_file "*.csproj")
-  [ -n "$project" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet run --project "$project" -r $DOTNET_RUNTIME_IDENTIFIER)
+  [ -n "$project" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet run --project "$project" $(_dn_rid_args))
 }
 
 dnrestore() {
   local solution=$(_dn_select_file "*.sln")
-  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet restore "$solution" --interactive -r $DOTNET_RUNTIME_IDENTIFIER)
+  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet restore "$solution" --interactive $(_dn_rid_args))
 }
 
 dnbuild() {
   local solution=$(_dn_select_file "*.sln")
-  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet build "$solution" -r $DOTNET_RUNTIME_IDENTIFIER)
+  [ -n "$solution" ] && (unset MSBUILDPROJECTEXTENSIONSPATH; dotnet build "$solution" $(_dn_rid_args))
 }
 
 if [[ $(uname) == 'Darwin' ]]; then
