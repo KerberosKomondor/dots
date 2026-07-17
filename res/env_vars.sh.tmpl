@@ -10,8 +10,8 @@ export JIRA_API_TOKEN="{{ (bitwarden "item" "jira-api-token").login.password }}"
 
 # Atlassian API for attachment downloads
 export ATLASSIAN_CLOUD_ID="{{ (bitwarden "item" "atlassian-cloud-id").login.password }}"
-export ATLASSIAN_EMAIL="{{ (bitwarden "item" "atlassian-api-token").login.username }}"
-export ATLASSIAN_API_TOKEN="{{ (bitwarden "item" "atlassian-api-token").login.password }}"
+export ATLASSIAN_EMAIL="{{ (bitwarden "item" "jira-api-token").login.username }}"
+export ATLASSIAN_API_TOKEN="{{ (bitwarden "item" "jira-api-token").login.password }}"
 {{- end }}
 
 # Unlock BitWarden and export session (skip if already unlocked)
