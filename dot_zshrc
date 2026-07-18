@@ -161,6 +161,7 @@ alias ls='eza --color=auto'
 
 alias cat='bat --style=plain'
 alias auth='source ~/res/auth.sh'
+alias chezmoi-claude='chezmoi --config ~/.config/chezmoi-claude/chezmoi.toml'
 
 _dn_select_file() {
   find . -name "$1" | fzf
