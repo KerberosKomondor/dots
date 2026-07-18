@@ -92,7 +92,18 @@ export LANG=en_US.UTF-8
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
 # Use kitty's SSH kitten when inside kitty — auto-copies xterm-kitty terminfo to remote
-[[ "$TERM" == "xterm-kitty" ]] && alias ssh="kitty +kitten ssh"
+# 192.168.2.31 excluded: kitten's bootstrap TTY handshake hangs indefinitely on this host
+# (auth succeeds, then hangs waiting on kitty to answer the bootstrap payload request over
+# the tty — cause not root-caused, see ~/docs/ssh.md). Plain ssh works fine.
+unalias ssh 2>/dev/null
+if [[ "$TERM" == "xterm-kitty" ]]; then
+  ssh() {
+    case "$*" in
+      *192.168.2.31*) command ssh "$@" ;;
+      *) kitty +kitten ssh "$@" ;;
+    esac
+  }
+fi
 
 # dotnet (Linux/WSL only — /usr/share/dotnet doesn't exist on macOS and breaks SDK resolution)
 if [[ $(uname) != 'Darwin' ]]; then
