@@ -1,6 +1,6 @@
 {{- $isWSL := false -}}
 {{- if eq .chezmoi.os "linux" -}}
-{{- $isWSL = contains (.chezmoi.kernel.osrelease | lower) "microsoft" -}}
+{{- $isWSL = contains "microsoft" (.chezmoi.kernel.osrelease | lower) -}}
 {{- end -}}
 {{- $isLinuxDesktop := and (eq .chezmoi.os "linux") (not $isWSL) -}}
 # secrets/keys — never track, matches the old bare-repo's .gitignore
