@@ -145,7 +145,7 @@ export HISTORY_FILTER_EXCLUDE=("mplayer" "/complete")
 typeset -U PATH path
 
 # Set PATH with ~/.local/bin prioritized
-export PATH=~/.local/bin:~/lib/vsts-cli/bin:~/.nvm:~/go/bin:~/.dotnet/tools:$PATH
+export PATH=~/.local/bin:~/lib/vsts-cli/bin:~/.nvm:~/go/bin:~/.dotnet/tools:~/.cargo/bin:$PATH
 
 export EDITOR=nvim
 export BROWSER=firefox
