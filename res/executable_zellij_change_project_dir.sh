@@ -2,9 +2,8 @@
 
 # Commands should be prefixed with a space to skip being stored in zsh's history
 
-# Tabs are matched by POSITION (0=nvim, 1=claude, 2=dev, 3=storybook), same
-# as the old tmux script matched by window index rather than name — this is
-# what keeps working after the nvim tab gets renamed to the project name.
+# Tabs are matched by POSITION (0=nvim, 1=claude, 2=dev, 3=storybook) —
+# this is what keeps working after the nvim tab gets renamed to the project name.
 NVIM_POS=0
 CLAUDE_POS=1
 DEV_POS=2
@@ -31,8 +30,7 @@ panes_json() {
 }
 
 # The pane's title tracks the currently running foreground command (kitty's
-# shell integration sets it per-command), so it doubles as tmux's
-# pane_current_command.
+# shell integration sets it per-command).
 pane_id_for_pos() {
     panes_json | jq -r --argjson pos "$1" '[.[] | select(.is_plugin==false and .tab_position==$pos)][0].id'
 }

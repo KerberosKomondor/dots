@@ -37,7 +37,7 @@ makepkg -si
 ### Paru ui and headless systems
 
 ```zsh
-paru -S tmuxinator tmux-plugin-manager bat eza starship
+paru -S bat eza starship
 ```
 
 ### Paru Guis
@@ -78,10 +78,6 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 systemctl --user enable <services in .config/systemctl/user>
 ```
 
-## Manual Installs
-
-[tmux-plugin-manager](https://github.com/tmux-plugins/tpm)
-[mop-tracker](https://github.com/mop-tracker/mop)
 
 ## Stupid fucking capslock key
 

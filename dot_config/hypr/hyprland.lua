@@ -70,7 +70,6 @@ hl.config({
 
 -- ── Workspace names ───────────────────────────────────────────────────────────
 -- Note: workspace naming via hl.workspace_rule is not supported in 0.55 Lua API
--- Names were: 1=browser, 2=tmux, 3=teams, 4=rdesk
 
 -- ── Persistent workspaces ─────────────────────────────────────────────────────
 -- Keep 1-4 always present (shown in AGS Bar/Workspaces) even with no windows open
