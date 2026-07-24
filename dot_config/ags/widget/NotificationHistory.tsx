@@ -129,41 +129,49 @@ export default function NotificationHistory(gdkmonitor: Gdk.Monitor) {
             }
 
             return (
-              <box orientation={1} spacing={2} class="notif-history-list">
-                {Array.from(groups.entries()).map(([appName, notifs]) => {
-                  if (notifs.length === 1) return renderRow(notifs[0])
+              <scrolledwindow
+                class="notif-history-scroll"
+                hscrollbarPolicy={Gtk.PolicyType.NEVER}
+                vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+                maxContentHeight={600}
+                propagateNaturalHeight
+              >
+                <box orientation={1} spacing={2} class="notif-history-list">
+                  {Array.from(groups.entries()).map(([appName, notifs]) => {
+                    if (notifs.length === 1) return renderRow(notifs[0])
 
-                  const newest = notifs[0]
-                  return (
-                    <box orientation={1} class="notif-history-group">
-                      <With value={expandedApps}>
-                        {(expanded: Set<string>) => {
-                          const isOpen = expanded.has(appName)
-                          return (
-                            <box orientation={1}>
-                              <button class="notif-history-app-header" onClicked={() => toggleExpanded(appName)}>
-                                <box spacing={6}>
-                                  <label label={isOpen ? "▾" : "▸"} />
-                                  <label
-                                    label={`${appName} ×${notifs.length} · ${relativeTime(newest.get_time())}`}
-                                    hexpand
-                                    halign={Gtk.Align.START}
-                                  />
-                                </box>
-                              </button>
-                              {isOpen ? (
-                                <box orientation={1} spacing={2}>
-                                  {notifs.map(notif => renderRow(notif))}
-                                </box>
-                              ) : renderRow(newest)}
-                            </box>
-                          )
-                        }}
-                      </With>
-                    </box>
-                  )
-                })}
-              </box>
+                    const newest = notifs[0]
+                    return (
+                      <box orientation={1} class="notif-history-group">
+                        <With value={expandedApps}>
+                          {(expanded: Set<string>) => {
+                            const isOpen = expanded.has(appName)
+                            return (
+                              <box orientation={1}>
+                                <button class="notif-history-app-header" onClicked={() => toggleExpanded(appName)}>
+                                  <box spacing={6}>
+                                    <label label={isOpen ? "▾" : "▸"} />
+                                    <label
+                                      label={`${appName} ×${notifs.length} · ${relativeTime(newest.get_time())}`}
+                                      hexpand
+                                      halign={Gtk.Align.START}
+                                    />
+                                  </box>
+                                </button>
+                                {isOpen ? (
+                                  <box orientation={1} spacing={2}>
+                                    {notifs.map(notif => renderRow(notif))}
+                                  </box>
+                                ) : renderRow(newest)}
+                              </box>
+                            )
+                          }}
+                        </With>
+                      </box>
+                    )
+                  })}
+                </box>
+              </scrolledwindow>
             )
           }}
         </With>

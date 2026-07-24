@@ -36,6 +36,15 @@ export function togglePopup(visible: () => boolean, setVisible: (v: boolean) => 
 
 app.start({
   css: style,
+  requestHandler(argv: string[], res: (response: any) => void) {
+    if (argv[0] === "show-notif-history") {
+      closeAllPopups()
+      setNotifHistoryVisible(true)
+      res("ok")
+    } else {
+      res("unknown")
+    }
+  },
   main() {
     const monitors = app.get_monitors()
     // DP-2 (right, x>0) — everything AGS-owned lives here, not just Bar
