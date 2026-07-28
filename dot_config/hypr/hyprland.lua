@@ -234,7 +234,7 @@ hl.bind(mod .. " + CTRL + L", hl.dsp.exec_cmd(lockCmd))
 -- App launches
 hl.bind(execMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind(execMod .. " + SHIFT + E", hl.dsp.exec_cmd(explorer))
-hl.bind(execMod .. " + W", hl.dsp.exec_cmd("~/res/xfreerdp.sh"))
+hl.bind(execMod .. " + W", hl.dsp.exec_cmd("~/res/sdlfreerdp.sh"))
 hl.bind(execMod .. " + T", hl.dsp.exec_cmd("dex ~/.local/share/applications/teams.desktop"))
 
 -- Screenshot
