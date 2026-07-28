@@ -68,7 +68,7 @@ def stop_and_transcribe(signum, frame):
         notify("No speech detected")
         return
 
-    subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "0", "--", text])
+    subprocess.run(["wtype", text])
 
 if __name__ == "__main__":
     # Kill any existing instance (excluding self)
