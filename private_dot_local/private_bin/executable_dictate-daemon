@@ -4,23 +4,57 @@ Hold-to-talk dictation daemon.
 Send SIGUSR1 to start recording, SIGUSR2 to stop and transcribe.
 Sway binds: bindsym --no-repeat Pause exec pkill -USR1 -f dictate-daemon
             bindsym --release Pause exec pkill -USR2 -f dictate-daemon
+
+Also streams state to the AGS DictatePill widget over a Unix socket
+(/tmp/dictate-vis.sock). AGS may not be running — every socket call is
+best-effort and never blocks or breaks dictation itself.
 """
 
 import subprocess
 import tempfile
 import os
 import signal
+import socket
+import json
 import time
 
 WHISPER_CLI = os.path.expanduser("~/code/rocm/whisper.cpp.git/build/bin/whisper-cli")
 MODEL = os.path.expanduser("~/code/rocm/whisper.cpp.git/models/ggml-large-v3.bin")
 AUDIO_SOURCE = subprocess.run(["pactl", "get-default-source"], capture_output=True, text=True).stdout.strip()
 
+VIS_SOCKET_PATH = "/tmp/dictate-vis.sock"
+
 recording_process = None
 audio_file = None
+vis_socket = None
 
-def notify(message):
-    subprocess.run(["notify-send", "-t", "2000", "Dictate", message])
+def vis_connect():
+    global vis_socket
+    try:
+        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s.settimeout(1)
+        s.connect(VIS_SOCKET_PATH)
+        vis_socket = s
+    except OSError:
+        vis_socket = None
+
+def vis_send(msg):
+    global vis_socket
+    if vis_socket is None:
+        return
+    try:
+        vis_socket.sendall((json.dumps(msg) + "\n").encode())
+    except OSError:
+        vis_socket = None
+
+def vis_close():
+    global vis_socket
+    if vis_socket is not None:
+        try:
+            vis_socket.close()
+        except OSError:
+            pass
+        vis_socket = None
 
 def start_recording(signum, frame):
     global recording_process, audio_file
@@ -30,13 +64,15 @@ def start_recording(signum, frame):
     audio_file = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
     audio_file.close()
 
+    vis_connect()
+    vis_send({"state": "recording"})
+
     recording_process = subprocess.Popen(
         ["ffmpeg", "-y", "-f", "pulse", "-i", AUDIO_SOURCE, "-ar", "16000", "-ac", "1", audio_file.name],
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL
     )
-    notify("Recording...")
 
 def stop_and_transcribe(signum, frame):
     global recording_process, audio_file
@@ -48,12 +84,13 @@ def stop_and_transcribe(signum, frame):
     recording_process.wait()
     recording_process = None
 
-    if os.path.getsize(audio_file.name) < 1000:
-        notify("No audio captured")
-        os.unlink(audio_file.name)
-        return
+    vis_send({"state": "transcribing"})
 
-    notify("Transcribing...")
+    if os.path.getsize(audio_file.name) < 1000:
+        vis_send({"state": "error"})
+        os.unlink(audio_file.name)
+        vis_close()
+        return
 
     result = subprocess.run(
         [WHISPER_CLI, "-m", MODEL, "-f", audio_file.name, "-np", "-nt"],
@@ -65,9 +102,12 @@ def stop_and_transcribe(signum, frame):
     os.unlink(audio_file.name)
 
     if not text:
-        notify("No speech detected")
+        vis_send({"state": "error"})
+        vis_close()
         return
 
+    vis_send({"state": "idle"})
+    vis_close()
     subprocess.run(["wtype", text])
 
 if __name__ == "__main__":

@@ -936,3 +936,87 @@ popover.tray-menu {
   margin-top: 8px;
   border-radius: 4px;
 }
+
+.DictatePill {
+  background: transparent;
+}
+
+.dictate-pill {
+  background-color: rgba(15, 14, 22, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 9px 20px;
+  margin-bottom: 118px;
+
+  &.error {
+    border-color: rgba(255, 85, 85, 0.6);
+
+    .dictate-dot {
+      background-color: #ff5555;
+      box-shadow: 0 0 8px #ff5555;
+    }
+  }
+}
+
+.dictate-dot {
+  min-width: 6px;
+  min-height: 6px;
+  border-radius: 999px;
+  background-color: #ff2d95;
+  box-shadow: 0 0 8px #ff2d95;
+  animation: dictate-pulse 1s ease-in-out infinite;
+}
+
+@keyframes dictate-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.dictate-bars {
+  min-height: 18px;
+}
+
+// Fixed-height bars animated via `transform: scaleY()` (paint-time, not layout)
+// rather than animating min-height/heightRequest directly — a real live level
+// drove bar height earlier and toggling GTK widget visibility/size on this
+// layer-shell window didn't reliably trigger a surface repaint. transform
+// sidesteps that: the widget's allocated size never changes, only its paint.
+.dictate-bar {
+  min-width: 2.5px;
+  min-height: 18px;
+  border-radius: 2px;
+  background-image: linear-gradient(180deg, #ff2d95, #00fff0);
+  animation: dictate-wave 900ms ease-in-out infinite;
+}
+
+@keyframes dictate-wave {
+  0%, 100% { transform: scaleY(0.2); }
+  50% { transform: scaleY(1); }
+}
+
+@for $i from 0 through 14 {
+  .dictate-bar-#{$i} {
+    animation-delay: #{$i * 60}ms;
+  }
+}
+
+.dictate-processing {
+  min-height: 18px;
+}
+
+.dictate-proc-dot {
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 999px;
+  background-image: linear-gradient(180deg, #ff2d95, #00fff0);
+  animation: dictate-proc-bounce 1.2s ease-in-out infinite;
+
+  &-1 { animation-delay: 0ms; }
+  &-2 { animation-delay: 200ms; }
+  &-3 { animation-delay: 400ms; }
+}
+
+@keyframes dictate-proc-bounce {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}

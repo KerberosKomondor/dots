@@ -9,6 +9,7 @@ import CalendarPopup from "./widget/CalendarPopup"
 import NotificationPopups from "./widget/NotificationPopups"
 import NotificationHistory from "./widget/NotificationHistory"
 import VolumePopup from "./widget/VolumePopup"
+import DictatePill from "./widget/DictatePill"
 import { createState } from "ags"
 
 export const [dashboardVisible, setDashboardVisible] = createState(false)
@@ -57,5 +58,6 @@ app.start({
     NotificationPopups(rightMonitor)
     NotificationHistory(rightMonitor)
     VolumePopup(rightMonitor)
+    DictatePill(rightMonitor)
   },
 })
