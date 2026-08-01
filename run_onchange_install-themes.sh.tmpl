@@ -1,5 +1,6 @@
 #!/bin/zsh
 set -e
+{{- if .gui }}
 
 # Dracula GTK/icon theme — installed here instead of tracking ~4300 files
 # in the dotfiles repo. Re-runs only when this script's content changes
@@ -20,3 +21,4 @@ if [ ! -d "$HOME/.icons/Dracula" ]; then
   cp -r /tmp/dracula-icons/icons/Dracula "$HOME/.icons/Dracula"
   rm -rf /tmp/dracula-icons
 fi
+{{- end }}

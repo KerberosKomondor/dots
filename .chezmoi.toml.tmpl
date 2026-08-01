@@ -1,5 +1,7 @@
 {{- $class := promptString "class" -}}
 {{- $azureDevOpsOrg := promptString "azureDevOpsOrg" "" -}}
+{{- $gui := promptBool "gui" true -}}
 [data]
     class = {{ $class | quote }}
     azureDevOpsOrg = {{ $azureDevOpsOrg | quote }}
+    gui = {{ $gui }}

@@ -2,7 +2,7 @@
 {{- if eq .chezmoi.os "linux" -}}
 {{- $isWSL = contains "microsoft" (.chezmoi.kernel.osrelease | lower) -}}
 {{- end -}}
-{{- $isLinuxDesktop := and (eq .chezmoi.os "linux") (not $isWSL) -}}
+{{- $isLinuxDesktop := and (and (eq .chezmoi.os "linux") (not $isWSL)) .gui -}}
 # secrets/keys — never track, matches the old bare-repo's .gitignore
 .config/neomutt/accounts
 *id_rsa*
@@ -22,4 +22,8 @@
 .xinitrc
 res/teams-tile.sh
 res/loadkeys.map
+{{- end }}
+{{- if not .gui }}
+.config/kitty
+.config/discord
 {{- end }}
