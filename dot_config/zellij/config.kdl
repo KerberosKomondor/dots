@@ -314,7 +314,7 @@ themes {
         orange 255 184 108
         cyan 139 233 253
         black 20 12 28
-        white 255 255 255
+        white 220 220 210
     }
 }
 
