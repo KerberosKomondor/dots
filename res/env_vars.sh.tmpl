@@ -2,6 +2,14 @@
 
 # used in .gitconfig
 export BRANCHPREFIX="wh"
+{{- if eq .class "personal" }}
+
+# Kroger Developer API — client-credentials grant, used by grocery skill's
+# kroger-enrich.sh for King Soopers aisle lookup
+export KROGER_CLIENT_ID="{{ (bitwarden "item" "kroger-api").login.username }}"
+export KROGER_CLIENT_SECRET="{{ (bitwarden "item" "kroger-api").login.password }}"
+export KROGER_LOCATION_ID="62000151"
+{{- end }}
 {{- if eq .class "work" }}
 
 # used by https://github.com/ankitpokhrel/jira-cli
