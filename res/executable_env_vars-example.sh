@@ -3,6 +3,13 @@
 # used in .gitconfig
 export BRANCHPREFIX="initials"
 
+# Kroger Developer API — client-credentials grant, used by grocery skill's
+# kroger-enrich.sh for aisle lookup at your store
+# Get from: https://developer.kroger.com
+export KROGER_CLIENT_ID="your-kroger-client-id"
+export KROGER_CLIENT_SECRET="your-kroger-client-secret"
+export KROGER_LOCATION_ID="your-store-location-id"
+
 # used by https://github.com/ankitpokhrel/jira-cli
 export JIRA_AUTH_TYPE="basic"
 export JIRA_API_TOKEN="jira key"
