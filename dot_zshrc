@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="muse"
-ZSH_THEME="dracula"
+ZSH_THEME="dracula/dracula"
 
 # More dracula theming
 ~/res/dracula-tty.sh
@@ -98,7 +98,7 @@ unalias ssh 2>/dev/null
 unset -f ssh 2>/dev/null
 
 # dotnet (Linux/WSL only — /usr/share/dotnet doesn't exist on macOS and breaks SDK resolution)
-if [[ $(uname) != 'Darwin' ]]; then
+if [[ $(uname) != 'Darwin' && -d "/usr/share/dotnet/sdk" ]]; then
   export DOTNET_ROOT="/usr/share/dotnet"
   export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
   export DOTNET_RUNTIME_IDENTIFIER=linux-x64

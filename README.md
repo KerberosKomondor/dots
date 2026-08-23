@@ -5,7 +5,7 @@
 ### ui and headless systems
 
 ```zsh
-pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice lazygit \
+doas pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice lazygit \
   jq bitwarden-cli zellij chezmoi yazi fzf direnv
 ```
 
@@ -22,19 +22,16 @@ source ~/.zshrc
 git clone https://github.com/MichaelAquilina/zsh-history-filter.git $ZSH/plugins/zsh-history-filter
 ```
 
-`.zshrc` sets `ZSH_THEME="dracula"` — install the theme now or zsh errors on next launch:
+`.zshrc` sets `ZSH_THEME="dracula/dracula"` — install the theme now or zsh errors on next launch:
 
 ```zsh
-mkdir ~/dracula
-cd ~/dracula
-git clone https://github.com/dracula/zsh.git
-ln -s ~/dracula/zsh/dracula.zsh-theme $ZSH/themes/dracula.zsh-theme
+git clone https://github.com/dracula/zsh.git $ZSH/themes/dracula
 ```
 
 ### Guis
 
 ```zsh
-pacman -S firefox blueberry xfce4-settings flameshot udiskie \
+doas pacman -S firefox blueberry xfce4-settings flameshot udiskie \
   nitrogen rofi solaar nerd-fonts cmus lightdm dex \
   zenity zathura zathura-cb zathura-pdf-mupdf mplayer mpd mpc rmpc freerdp hyprlock
 ```
@@ -91,7 +88,7 @@ Custom Claude Code hook tool (Rust Token Killer), not in any repo — built from
 cargo install --git https://github.com/rtk-ai/rtk
 ```
 
-Needs `cargo` (`pacman -S rust`). No version pin — `cargo install --git` just grabs
+Needs `cargo` (`doas pacman -S rust`). No version pin — `cargo install --git` just grabs
 whatever's at HEAD when you run it, then never updates itself. To update later:
 
 ```zsh
