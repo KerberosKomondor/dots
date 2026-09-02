@@ -6,7 +6,7 @@
     password: None,
     theme: Some("main"),
     cache_dir: None,
-    lyrics_dir: Some("/mnt/kerby/music"),
+    lyrics_dir: Some("/mnt/aang/music"),
     on_song_change: None,
     volume_step: 5,
     max_fps: 30,
@@ -215,11 +215,38 @@
                     ),
                     (
                         size: "35%",
-                        borders: "ALL",
-                        border_symbols: Rounded,
-                        border_title: [(kind: Text(" Lyrics "))],
-                        border_title_alignment: Right,
-                        pane: Pane(Lyrics)
+                        pane: Split(
+                            direction: Vertical,
+                            panes: [
+                                (
+                                    size: "50%",
+                                    borders: "ALL",
+                                    border_symbols: Rounded,
+                                    border_title: [(kind: Text(" File "))],
+                                    border_title_alignment: Right,
+                                    pane: Split(
+                                        direction: Vertical,
+                                        panes: [
+                                            (size: "1", pane: Pane(Property(content: [(kind: Text(" Title    "), style: (fg: "yellow")), (kind: Property(Song(Title)), default: (kind: Text("-")))], align: Left))),
+                                            (size: "1", pane: Pane(Property(content: [(kind: Text(" Artist   "), style: (fg: "yellow")), (kind: Property(Song(Artist)), default: (kind: Text("-")))], align: Left))),
+                                            (size: "1", pane: Pane(Property(content: [(kind: Text(" Album    "), style: (fg: "yellow")), (kind: Property(Song(Album)), default: (kind: Text("-")))], align: Left))),
+                                            (size: "1", pane: Pane(Property(content: [(kind: Text(" Duration "), style: (fg: "yellow")), (kind: Property(Status(Elapsed))), (kind: Text(" / ")), (kind: Property(Status(Duration)), default: (kind: Text("-")))], align: Left))),
+                                            (size: "1", pane: Pane(Property(content: [(kind: Text(" Format   "), style: (fg: "yellow")), (kind: Property(Status(SampleRate())), default: (kind: Text("-"))), (kind: Text("Hz ")), (kind: Property(Status(Bits())), default: (kind: Text("-"))), (kind: Text("bit ")), (kind: Property(Status(Bitrate)), default: (kind: Text("-"))), (kind: Text("kbps"))], align: Left))),
+                                            (size: "1", pane: Pane(Property(content: [(kind: Text(" File     "), style: (fg: "yellow")), (kind: Property(Song(File)), default: (kind: Text("-")))], align: Left))),
+                                            (size: "100%", pane: Pane(Empty())),
+                                        ],
+                                    )
+                                ),
+                                (
+                                    size: "50%",
+                                    borders: "ALL",
+                                    border_symbols: Rounded,
+                                    border_title: [(kind: Text(" Lyrics "))],
+                                    border_title_alignment: Right,
+                                    pane: Pane(Lyrics)
+                                ),
+                            ],
+                        )
                     ),
                 ],
             ),
