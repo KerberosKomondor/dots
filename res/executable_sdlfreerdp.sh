@@ -1,23 +1,18 @@
 #!/bin/zsh
 
 
-exit_if_master_password_error() {
-  if [[ -z $BW_SESSION ]]; then
-    notify-send --wait --urgency=critical "master password was incorrect"
-    exit 1
-  fi
-}
-
+# Gate on actual vault state, not on whether BW_SESSION happens to be set.
+# A stale BW_SESSION inherited from the shell is non-empty but useless: the old
+# `[[ -z $BW_SESSION ]]` test passed, zenity never ran, and each `bw get` below
+# silently fell back to bw's own TTY "? Master password:" prompt instead.
 unlock_bw_if_locked() {
   for i in {1..3}; do
-    if [[ -z $BW_SESSION ]]; then
-      export BW_SESSION="$(bw unlock "$(zenity --password)" --raw)"
-      if [[ -n $BW_SESSION ]]; then
-        return 0
-      fi
-      notify-send "Incorrect password. Attempt $i of 3"
-    else
+    if bw unlock --check >/dev/null 2>&1; then
       return 0
+    fi
+    export BW_SESSION="$(bw unlock "$(zenity --password 2>/dev/null)" --raw)"
+    if [[ -z $BW_SESSION ]]; then
+      notify-send "Incorrect password. Attempt $i of 3"
     fi
   done
   notify-send --urgency=critical "Failed to unlock after 3 attempts"
@@ -52,13 +47,12 @@ try_command() {
 
 main() {
   unlock_bw_if_locked
-  exit_if_master_password_error
 
   local bw_id="f454103e-c244-452c-89f7-b1a80036ee46"
 
-  local password="$(bw get password okta.com)" || exit 1
-  local username="$(bw get username $bw_id)"
-  local ip_addr="$(bw get uri $bw_id)"
+  local password="$(bw get password okta.com </dev/null)" || exit 1
+  local username="$(bw get username $bw_id </dev/null)" || exit 1
+  local ip_addr="$(bw get uri $bw_id </dev/null)" || exit 1
 
   # sdl-freerdp3 instead of xfreerdp3 — native Wayland client (SDL3 video driver),
   # clipboard goes through wl_data_device instead of X11 CLIPBOARD selection,
