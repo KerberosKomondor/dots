@@ -6,11 +6,18 @@
 # `[[ -z $BW_SESSION ]]` test passed, zenity never ran, and each `bw get` below
 # silently fell back to bw's own TTY "? Master password:" prompt instead.
 unlock_bw_if_locked() {
+  local pw
   for i in {1..3}; do
     if bw unlock --check >/dev/null 2>&1; then
       return 0
     fi
-    export BW_SESSION="$(bw unlock "$(zenity --password 2>/dev/null)" --raw)"
+    # zenity exits non-zero on Cancel/Esc/window-close. Capture that separately from
+    # the password itself: a cancel means "don't connect", not "wrong password", so
+    # bail out immediately instead of burning the remaining retries.
+    if ! pw="$(zenity --password 2>/dev/null)"; then
+      exit 0
+    fi
+    export BW_SESSION="$(bw unlock "$pw" --raw)"
     if [[ -z $BW_SESSION ]]; then
       notify-send "Incorrect password. Attempt $i of 3"
     fi
