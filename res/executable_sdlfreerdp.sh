@@ -1,12 +1,17 @@
 #!/bin/zsh
 
 
+source ~/res/bw-session.sh
+
 # Gate on actual vault state, not on whether BW_SESSION happens to be set.
 # A stale BW_SESSION inherited from the shell is non-empty but useless: the old
 # `[[ -z $BW_SESSION ]]` test passed, zenity never ran, and each `bw get` below
 # silently fell back to bw's own TTY "? Master password:" prompt instead.
+# Starts from the shared cache (a shell may already have unlocked this login) and
+# saves back to it, since unlocking here invalidates every shell's cached key otherwise.
 unlock_bw_if_locked() {
   local pw
+  bw_session_load
   for i in {1..3}; do
     if bw unlock --check >/dev/null 2>&1; then
       return 0
@@ -17,8 +22,7 @@ unlock_bw_if_locked() {
     if ! pw="$(zenity --password 2>/dev/null)"; then
       exit 0
     fi
-    export BW_SESSION="$(bw unlock "$pw" --raw)"
-    if [[ -z $BW_SESSION ]]; then
+    if ! bw_session_save "$(bw unlock "$pw" --raw)"; then
       notify-send "Incorrect password. Attempt $i of 3"
     fi
   done
