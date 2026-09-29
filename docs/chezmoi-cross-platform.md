@@ -12,7 +12,7 @@ commits pulled in by a sync that were authored on a different machine.
 |---|---|---|---|
 | `.chezmoi.os` | `darwin` | `linux` | `linux` |
 | Detect | `eq .chezmoi.os "darwin"` | `$isLinuxDesktop` | `contains "microsoft" (.chezmoi.kernel.osrelease \| lower)` |
-| Home | `/Users/whengely` | `/home/whengely` | `/home/whengely` (Windows side under `/mnt/c/Users/...`) |
+| Home | `/Users/whengely` | `/home/<user>` (username differs per machine, e.g. `appa`) | `/home/<user>` (Windows side under `/mnt/c/Users/...`) |
 | Shell tools | BSD coreutils, `/bin/bash` 3.2 | GNU | GNU |
 | Packages | Homebrew `/opt/homebrew` | pacman/etc. | apt/etc. |
 | GUI / WM | AeroSpace (see `macos.md`) | Hyprland, waybar, systemd user units | usually none; Windows interop |
@@ -27,7 +27,7 @@ Existing gating vars:
 
 ## Checklist
 
-1. **Hardcoded paths** — no `/home/whengely` or `/Users/whengely` in
+1. **Hardcoded paths** — no `/home/<user>` or `/Users/<user>` in
    templates. Use `{{ .chezmoi.homeDir }}`; in scripts use `$HOME`.
 2. **Snapshot / scanner output** — generated content (e.g. the Claude
    `autoMode.environment` block) bakes in facts about the machine and cwd it

@@ -77,7 +77,7 @@
 
   # Merge home to branch
   update-branch = "!f() { git fetch-home; git merge $(git home-name);};f"
-  rebase-branch = "!f() { git fetch-dev; git rebase $(git home-name);};f"
+  rebase-branch = "!f() { git fetch-home; git rebase $(git home-name);};f"
 
   # If you want pull request aliases to work you need to download the following
   #https://github.com/Microsoft/vsts-cli
@@ -95,7 +95,7 @@
   path = ~/.gitconfig.dracula
 [credential "https://github.com"]
 	helper = 
-	helper = !/usr/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
 	helper =
-	helper = !/usr/bin/gh auth git-credential
+	helper = !gh auth git-credential

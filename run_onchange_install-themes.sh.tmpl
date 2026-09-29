@@ -1,6 +1,7 @@
 #!/bin/zsh
 set -e
-{{- if .gui }}
+{{- $isWSL := and (eq .chezmoi.os "linux") (contains "microsoft" (.chezmoi.kernel.osrelease | lower)) }}
+{{- if and (eq .chezmoi.os "linux") (not $isWSL) .gui }}
 
 # Dracula GTK/icon theme — installed here instead of tracking ~4300 files
 # in the dotfiles repo. Re-runs only when this script's content changes

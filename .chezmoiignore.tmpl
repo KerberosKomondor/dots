@@ -22,6 +22,22 @@
 .xinitrc
 res/teams-tile.sh
 res/loadkeys.map
+res/bt-volume-fix.sh
+res/clipboard-bake.sh
+res/clipboard-bake-watcher.sh
+res/clipboard-xclip.sh
+res/sdlfreerdp.sh
+res/xrandr.sh
+.local/bin/boom3-connect.sh
+.local/bin/boom3-disconnect.sh
+.local/bin/dictate-daemon
+.local/share/applications
+{{- end }}
+{{- if ne .chezmoi.os "darwin" }}
+.config/aerospace
+.config/borders
+res/macos-defaults.sh
+.zshrc.mac.zsh
 {{- end }}
 {{- if not .gui }}
 .config/kitty

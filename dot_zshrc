@@ -16,8 +16,20 @@ export COLORTERM=truecolor
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
 #FZF settings
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# fzf >= 0.48 ships its own init (`fzf --zsh`); older distro packages (e.g.
+# Ubuntu/WSL apt) only have the script files, whose path varies by distro.
+if command -v fzf > /dev/null; then
+  if ! source <(fzf --zsh 2>/dev/null) 2>/dev/null; then
+    for fzf_dir in /usr/share/fzf /usr/share/doc/fzf/examples; do
+      if [[ -f $fzf_dir/key-bindings.zsh ]]; then
+        source $fzf_dir/key-bindings.zsh
+        [[ -f $fzf_dir/completion.zsh ]] && source $fzf_dir/completion.zsh
+        break
+      fi
+    done
+    unset fzf_dir
+  fi
+fi
 
 # Don't save commands starting with a space to history
 setopt HIST_IGNORE_SPACE
