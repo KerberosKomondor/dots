@@ -112,7 +112,10 @@ unset -f ssh 2>/dev/null
 # dotnet (Linux/WSL only — /usr/share/dotnet doesn't exist on macOS and breaks SDK resolution)
 if [[ $(uname) != 'Darwin' && -d "/usr/share/dotnet/sdk" ]]; then
   export DOTNET_ROOT="/usr/share/dotnet"
-  export MSBuildSDKsPath="$DOTNET_ROOT/sdk/$(${DOTNET_ROOT}/dotnet --version)/Sdks"
+  # newest installed SDK dir (numeric sort); avoids spawning `dotnet --version` (~100ms) every shell
+  _dn_sdks=("$DOTNET_ROOT"/sdk/*(/nOn))
+  export MSBuildSDKsPath="${_dn_sdks[1]}/Sdks"
+  unset _dn_sdks
   export DOTNET_RUNTIME_IDENTIFIER=linux-x64
   export DOTNET_RUNTIME_ID=linux-x64
 fi
@@ -136,8 +139,16 @@ _dotnet_zsh_complete()
 compdef _dotnet_zsh_complete dotnet
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy-load nvm (~140ms at startup). node/npm are the system ones (nvm default resolves
+# to "system"), so only the `nvm` command itself needs to trigger the load.
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  nvm() {
+    unset -f nvm
+    \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    nvm "$@"
+  }
+fi
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
