@@ -48,7 +48,9 @@ bw_session_shell_init() {
   if bw_session_load; then
     local key=$BW_SESSION
     # Only drop the cache if it still holds the key we checked; a newer save wins.
-    { bw unlock --check --session "$key" &>/dev/null ||
+    # </dev/null is load-bearing: node restores the termios it saw at startup when it
+    # exits, which would flip the TTY back to cooked mode under an already-running zle.
+    { bw unlock --check --session "$key" </dev/null &>/dev/null ||
         { [[ $(<"$BW_SESSION_CACHE") == "$key" ]] && rm -f "$BW_SESSION_CACHE" } } &!
   else
     _bw_session_unlock_tty
