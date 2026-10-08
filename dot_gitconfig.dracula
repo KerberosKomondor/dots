@@ -50,3 +50,27 @@
   unmerged = magenta bold reverse
   untracked = red
   updated = green bold
+# DELTA
+# -----
+# Dracula theme for git-delta (session-diff tab, `git diff | delta`)
+[delta]
+  syntax-theme = Dracula
+  dark = true
+  line-numbers = true
+  plus-style = syntax "#2b4a3a"
+  plus-emph-style = syntax "#3d6b4f"
+  minus-style = syntax "#4a2b34"
+  minus-emph-style = syntax "#6b3d4a"
+  line-numbers-plus-style = "#50fa7b"
+  line-numbers-minus-style = "#ff5555"
+  line-numbers-zero-style = "#6272a4"
+  line-numbers-left-style = "#6272a4"
+  line-numbers-right-style = "#6272a4"
+  file-style = bold "#ff79c6"
+  file-decoration-style = "#ff79c6" ul
+  hunk-header-style = file line-number syntax
+  hunk-header-decoration-style = "#bd93f9" box
+  hunk-header-file-style = "#8be9fd"
+  hunk-header-line-number-style = "#f1fa8c"
+  commit-decoration-style = "#bd93f9" box
+  whitespace-error-style = "#ff79c6" reverse
