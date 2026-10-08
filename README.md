@@ -6,12 +6,14 @@
 
 ```zsh
 doas pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice lazygit \
-  jq bitwarden-cli zellij chezmoi yazi fzf direnv
+  jq bitwarden-cli zellij chezmoi yazi fzf direnv git-delta
 ```
 
 `chezmoi` bootstraps everything else in this repo — install it before anything below.
 `bitwarden-cli` (`bw`) is needed by `res/env_vars.sh.tmpl` (shell login unlocks the vault)
 and by chezmoi-claude's `bitwarden` template lookups. Run `bw login` once after install.
+`git-delta` (`delta`) is the pager for chezmoi-claude's `session-diff` skill (side-by-side
+diff tab per repo, see `~/docs/session-diff.md`); the skill exits with "delta not installed" without it.
 
 ### ZSH
 
@@ -64,6 +66,7 @@ paru -S noto-fonts-emoji-git
 ```zsh
 brew install --cask kitty firefox
 brew install --cask nikitabobko/tap/aerospace
+brew install git-delta
 ```
 
 AeroSpace (tiling WM, replaces Hyprland — doesn't run on macOS) needs
