@@ -57,6 +57,7 @@
   syntax-theme = Dracula
   dark = true
   line-numbers = true
+  navigate = true
   plus-style = syntax "#2b4a3a"
   plus-emph-style = syntax "#3d6b4f"
   minus-style = syntax "#4a2b34"
