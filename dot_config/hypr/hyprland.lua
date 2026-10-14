@@ -217,9 +217,49 @@ for i = 1, 10 do
     hl.bind(mod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Move current workspace to a specific monitor
-hl.bind(mod .. " + CTRL + period", hl.dsp.workspace.move({ monitor = "DP-2" }))
-hl.bind(mod .. " + CTRL + comma",  hl.dsp.workspace.move({ monitor = "DP-1" }))
+-- Move current workspace to a specific monitor; source monitor falls back to
+-- its most recently visible workspace instead of lowest ID (see ~/docs/hyprland.md)
+local wsHistory = {} -- monitor name -> workspace ids, most recent last
+
+local function recordVisibleWorkspaces()
+    for _, m in ipairs(hl.get_monitors()) do
+        local aw = m.active_workspace
+        if aw and not aw.special then
+            local hist = wsHistory[m.name] or {}
+            for i = #hist, 1, -1 do
+                if hist[i] == aw.id then table.remove(hist, i) end
+            end
+            table.insert(hist, aw.id)
+            if #hist > 20 then table.remove(hist, 1) end
+            wsHistory[m.name] = hist
+        end
+    end
+end
+hl.on("workspace.active", recordVisibleWorkspaces)
+hl.on("workspace.move_to_monitor", recordVisibleWorkspaces)
+hl.on("monitor.focused", recordVisibleWorkspaces)
+
+local function moveWorkspaceTo(target)
+    return function()
+        local src = hl.get_active_monitor()
+        local ws = hl.get_active_workspace()
+        if not src or not ws or src.name == target then return end
+
+        local hist = wsHistory[src.name] or {}
+        for i = #hist, 1, -1 do
+            local cand = hist[i] ~= ws.id and hl.get_workspace(hist[i])
+            if cand and cand.monitor and cand.monitor.name == src.name then
+                hl.dispatch(hl.dsp.focus({ workspace = cand.id }))
+                hl.dispatch(hl.dsp.workspace.move({ workspace = ws.id, monitor = target }))
+                hl.dispatch(hl.dsp.focus({ workspace = ws.id }))
+                return
+            end
+        end
+        hl.dispatch(hl.dsp.workspace.move({ monitor = target }))
+    end
+end
+hl.bind(mod .. " + CTRL + period", moveWorkspaceTo("DP-2"))
+hl.bind(mod .. " + CTRL + comma",  moveWorkspaceTo("DP-1"))
 
 -- Reload / exit
 hl.bind(mod .. " + SHIFT + C", hl.dsp.exec_cmd("hyprctl reload"))
