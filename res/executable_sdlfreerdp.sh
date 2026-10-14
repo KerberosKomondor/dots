@@ -2,6 +2,7 @@
 
 
 source ~/res/bw-session.sh
+zmodload zsh/datetime
 
 # Gate on actual vault state, not on whether BW_SESSION happens to be set.
 # A stale BW_SESSION inherited from the shell is non-empty but useless: the old
@@ -68,6 +69,16 @@ rdp_connect() {
     /gfx:AVC420
 }
 
+# Run rdp_connect, setting the caller's $ret_value and $elapsed (seconds). Each attempt
+# is appended to a log on tmpfs, so a surprise exit code can be looked up afterwards.
+rdp_attempt() {
+  local start=$EPOCHSECONDS
+  rdp_connect "$@"
+  ret_value=$?
+  elapsed=$(( EPOCHSECONDS - start ))
+  print -r -- "$(date -Iseconds) exit=$ret_value elapsed=${elapsed}s" >> "${XDG_RUNTIME_DIR:-/tmp}/sdlfreerdp.log"
+}
+
 main() {
   unlock_bw_if_locked
 
@@ -81,21 +92,22 @@ main() {
   username="$(bw_get username "$bw_id")"  || exit 1
   ip_addr="$(bw_get uri "$bw_id")"        || exit 1
 
-  local ret_value
-  rdp_connect "$ip_addr" "$username" "$password"
-  ret_value=$?
+  local ret_value elapsed
+  rdp_attempt "$ip_addr" "$username" "$password"
 
   # 131 is sdl-freerdp3's generic connect failure, which is what a rejected password
   # looks like under /sec:tls. Resending the same vault password can't succeed and only
   # burns logon attempts, so ask for one instead. Any other code (clean exit, user
   # disconnect) is final. Cancelling the dialog means "don't connect".
+  # But 131 also comes back when an established session ends, which used to pop the
+  # prompt after a normal session. Failed logons exit within ~3s, so only a fast 131
+  # counts as one.
   for i in {1..3}; do
-    [[ $ret_value -eq 131 ]] || break
+    (( ret_value == 131 && elapsed < 15 )) || break
     if ! password="$(zenity --password --title="RDP password (attempt $i of 3)" 2>/dev/null)"; then
       exit 0
     fi
-    rdp_connect "$ip_addr" "$username" "$password"
-    ret_value=$?
+    rdp_attempt "$ip_addr" "$username" "$password"
   done
 
   exit $ret_value
