@@ -10,10 +10,6 @@ export KROGER_CLIENT_ID="your-kroger-client-id"
 export KROGER_CLIENT_SECRET="your-kroger-client-secret"
 export KROGER_LOCATION_ID="your-store-location-id"
 
-# used by https://github.com/ankitpokhrel/jira-cli
-export JIRA_AUTH_TYPE="basic"
-export JIRA_API_TOKEN="jira key"
-
 # Atlassian API for attachment downloads
 # Get token from: https://id.atlassian.com/manage-profile/security/api-tokens
 export ATLASSIAN_CLOUD_ID="your-cloud-id-here"

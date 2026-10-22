@@ -12,10 +12,6 @@ export KROGER_LOCATION_ID="62000151"
 {{- end }}
 {{- if eq .class "work" }}
 
-# used by https://github.com/ankitpokhrel/jira-cli
-export JIRA_AUTH_TYPE="basic"
-export JIRA_API_TOKEN="{{ (bitwarden "item" "jira-api-token").login.password }}"
-
 # Atlassian API for attachment downloads
 export ATLASSIAN_CLOUD_ID="{{ (bitwarden "item" "atlassian-cloud-id").login.password }}"
 export ATLASSIAN_EMAIL="{{ (bitwarden "item" "jira-api-token").login.username }}"

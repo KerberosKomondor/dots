@@ -29,8 +29,7 @@ sudo pacman -S go \
 ```sh
 paru -S nvm \
   python-pynvim-git \
-  ruby-neovim \
-  jira-cli-bin
+  ruby-neovim
 ```
 
 ### NPM requirements
