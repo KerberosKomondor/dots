@@ -89,14 +89,16 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 Custom Claude Code hook tool (Rust Token Killer), not in any repo — built from source:
 
 ```zsh
-cargo install --git https://github.com/rtk-ai/rtk
+cargo install --git https://github.com/rtk-ai/rtk --tag v1.1.0 rtk
 ```
 
-Needs `cargo` (`doas pacman -S rust`). No version pin — `cargo install --git` just grabs
-whatever's at HEAD when you run it, then never updates itself. To update later:
+Needs `cargo` (`doas pacman -S rust`). Pin a release tag (latest:
+`git ls-remote --tags --refs https://github.com/rtk-ai/rtk`); without `--tag`, cargo builds
+whatever's at HEAD. The trailing `rtk` is required since v1.1.0, because the repo also has an
+`rtk-proxy` binary package and cargo refuses to guess. It never updates itself; to update later:
 
 ```zsh
-cargo install --git https://github.com/rtk-ai/rtk --force
+cargo install --git https://github.com/rtk-ai/rtk --tag <vX.Y.Z> --force rtk
 ```
 
 Without it installed, the `rtk hook claude` PreToolUse hook in chezmoi-claude's
