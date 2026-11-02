@@ -6,7 +6,7 @@
 
 ```zsh
 doas pacman -S doas git nvim alsa-utils bluez bluez-utils fatsort accountsservice lazygit \
-  jq bitwarden-cli zellij chezmoi yazi fzf direnv git-delta less
+  jq bitwarden-cli zellij chezmoi yazi fzf direnv git-delta less shellcheck
 ```
 
 `chezmoi` bootstraps everything else in this repo — install it before anything below.
@@ -15,6 +15,8 @@ and by chezmoi-claude's `bitwarden` template lookups. Run `bw login` once after 
 `git-delta` (`delta`) renders chezmoi-claude's `session-diff` skill (side-by-side diff tab per
 repo, see `~/docs/session-diff.md`) and pages through `less` — not in every Arch base install;
 without it delta prints and exits, so the diff tab closes instantly.
+`shellcheck` lints scripts before they're committed to either chezmoi source
+(`docs/chezmoi-cross-platform.md` → How to verify).
 
 ### ZSH
 
@@ -67,7 +69,7 @@ paru -S noto-fonts-emoji-git
 ```zsh
 brew install --cask kitty firefox
 brew install --cask nikitabobko/tap/aerospace
-brew install git-delta
+brew install git-delta shellcheck
 ```
 
 AeroSpace (tiling WM, replaces Hyprland — doesn't run on macOS) needs
