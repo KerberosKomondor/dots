@@ -190,6 +190,9 @@ alias ls='eza --color=auto'
 alias cat='bat --style=plain'
 alias auth='source ~/res/auth.sh'
 alias chezmoi-claude='chezmoi --config ~/.config/chezmoi-claude/chezmoi.toml'
+# Claude Fight Club (Teams plan): separate config dir = separate login; shared
+# config is symlinked from ~/.claude (see ~/docs/claude-fight-club.md)
+alias claude-cfc='CLAUDE_CONFIG_DIR=$HOME/.claude-cfc claude'
 
 _dn_select_file() {
   find . -name "$1" | fzf
