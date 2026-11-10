@@ -19,6 +19,14 @@ hl.config({
     },
 })
 
+-- ── Render ────────────────────────────────────────────────────────────────────
+-- direct scanout: fullscreen games (Overwatch) skip compositing — less Hyprland CPU, lower latency
+hl.config({
+    render = {
+        direct_scanout = 1,
+    },
+})
+
 -- ── Input ─────────────────────────────────────────────────────────────────────
 hl.config({
     input = {
