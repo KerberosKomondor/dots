@@ -149,8 +149,12 @@ function writeFileSync(path: string, content: string): void {
 
 ## Dotfiles
 
-Use `config` (bare git repo alias), not `git`:
+Managed by chezmoi (source `~/.local/share/chezmoi`, `dot_config/ags/`). `.config/ags` is gated to Linux desktop in `.chezmoiignore.tmpl` — not deployed on macOS/WSL. See `~/docs/dotfiles-chezmoi.md`.
+
 ```bash
-config add ~/.config/ags/widget/Foo.tsx
-config commit -m "feat(ags): ..."
+chezmoi add ~/.config/ags/widget/Foo.tsx          # new or changed file
+cd ~/.local/share/chezmoi && git rm dot_config/ags/widget/Old.tsx   # deleted file
+git add -A dot_config/ags && git commit -m "feat(ags): ..." && git push
 ```
+
+Never `chezmoi add` the whole dir blindly — check for secrets first. Runtime secrets (e.g. `arr.env`) live in `~/.local/share/ags/`, outside the tracked tree.
