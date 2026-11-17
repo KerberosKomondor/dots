@@ -287,206 +287,6 @@ popover.tray-menu {
   .hourly-precip { font-size: 9px; color: #bd93f9; min-width: 30px; }
 }
 
-/* Todo button */
-.todo-button {
-  background: transparent;
-  border: none;
-  border-right: 1px solid #44475a;
-  border-radius: 0;
-  padding: 0 12px;
-  color: #8b8fa8;
-  min-height: 32px;
-
-  &:hover {
-    color: #bd93f9;
-    background: transparent;
-  }
-}
-
-.todo-icon {
-  font-size: 14px;
-}
-
-.todo-badge {
-  background: #ff79c6;
-  color: #282a36;
-  border-radius: 9999px;
-  min-width: 12px;
-  min-height: 12px;
-  font-size: 8px;
-  font-weight: bold;
-  padding: 0 2px;
-  margin-top: 2px;
-  margin-right: 2px;
-}
-
-
-.TodoPopup {
-  background: transparent;
-
-  .todo-popup {
-    background: #282a36;
-    border: 1px solid #44475a;
-    border-radius: 10px;
-    padding: 12px;
-    min-width: 320px;
-    margin-top: 2px;
-  }
-
-  .todo-tabs {
-    padding-bottom: 8px;
-  }
-
-  .todo-tab {
-    background: #44475a;
-    border: none;
-    border-radius: 5px;
-    padding: 3px 8px;
-    color: #8b8fa8;
-    font-size: 12px;
-    font-weight: bold;
-
-    &:hover     { background: #bd93f9; color: #282a36; }
-    &.today     { color: #8b8fa8; }
-    &.has-items { color: #282a36; background: #ff79c6; }
-    &.active    { background: #bd93f9; color: #282a36; }
-  }
-
-  .todo-divider {
-    background: #44475a;
-    min-height: 1px;
-    margin: 0 0 8px 0;
-  }
-
-  .todo-list {
-    min-height: 20px;
-    padding: 0 2px;
-  }
-
-  .todo-empty {
-    color: #44475a;
-    font-size: 12px;
-    padding: 8px 0;
-  }
-
-  .todo-item {
-    border-radius: 5px;
-    padding: 2px 4px;
-
-    &:hover { background: #44475a22; }
-
-    &.done {
-      .todo-text { color: #8be9fd; text-decoration: line-through; }
-    }
-  }
-
-  .todo-check {
-    background: transparent;
-    border: none;
-    padding: 0 4px 0 0;
-    color: #bd93f9;
-    min-width: 0;
-
-    &:hover { color: #f8f8f2; background: transparent; }
-  }
-
-  .todo-checkmark {
-    color: #8be9fd;
-  }
-
-  .todo-text {
-    color: #f8f8f2;
-    font-size: 13px;
-  }
-
-  .todo-delete {
-    background: transparent;
-    border: none;
-    padding: 0 2px;
-    color: #6272a4;
-    font-size: 12px;
-    min-width: 0;
-
-    &:hover { color: #ff5555; background: transparent; }
-  }
-
-  .todo-add-btn {
-    background: transparent;
-    border: none;
-    border-top: 1px solid #44475a;
-    border-radius: 0 0 8px 8px;
-    padding: 4px;
-    color: #bd93f9;
-    font-size: 18px;
-    margin-top: 6px;
-
-    &:hover { color: #f8f8f2; background: transparent; }
-  }
-
-  .todo-add-form {
-    border-top: 1px solid #44475a;
-    padding-top: 8px;
-    margin-top: 6px;
-  }
-
-  .todo-add-entry {
-    background: #44475a;
-    border: 1px solid #6272a4;
-    border-radius: 5px;
-    color: #f8f8f2;
-    padding: 4px 8px;
-    font-size: 13px;
-
-    &:focus { border-color: #bd93f9; }
-  }
-
-  .todo-mode-btn {
-    background: #44475a;
-    border: none;
-    border-radius: 5px;
-    padding: 3px 10px;
-    color: #8b8fa8;
-    font-size: 11px;
-
-    &.active { background: #bd93f9; color: #282a36; }
-    &:hover { background: #bd93f9; color: #282a36; }
-  }
-
-  .todo-day-btn {
-    background: #44475a;
-    border: none;
-    border-radius: 4px;
-    padding: 2px 5px;
-    color: #8b8fa8;
-    font-size: 10px;
-    min-width: 0;
-
-    &.active { background: #bd93f9; color: #282a36; }
-    &:hover { background: #6272a4; color: #f8f8f2; }
-  }
-
-  .todo-save-btn {
-    background: #bd93f9;
-    border: none;
-    border-radius: 5px;
-    padding: 3px 12px;
-    color: #282a36;
-    font-size: 12px;
-
-    &:hover { background: #ff79c6; color: #282a36; }
-  }
-
-  .todo-cancel-btn {
-    background: transparent;
-    border: none;
-    padding: 3px 8px;
-    color: #ff79c6;
-    font-size: 12px;
-
-    &:hover { color: #f8f8f2; background: transparent; }
-  }
-}
-
 /* Transparent click-catcher backdrop */
 .Backdrop {
   background: transparent;
@@ -1019,4 +819,70 @@ popover.tray-menu {
 @keyframes dictate-proc-bounce {
   0%, 80%, 100% { opacity: 0.3; }
   40% { opacity: 1; }
+}
+
+/* Releases (Sonarr/Radarr/Lidarr today) button */
+.releases-btn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #50fa7b;
+  padding: 0 6px;
+
+  &:hover { background: #44475a; }
+}
+
+.releases-icon { font-size: 14px; }
+
+.releases-badge {
+  background: #ff5555;
+  color: #f8f8f2;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: bold;
+  min-width: 12px;
+  min-height: 12px;
+  padding: 0 3px;
+  margin-top: 2px;
+}
+
+/* Releases popup */
+.ReleasesPopup {
+  background: transparent;
+
+  .releases-popup {
+    background: #282a36;
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 360px;
+  }
+
+  .releases-header {
+    color: #6272a4;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .releases-empty { color: #6272a4; }
+
+  .release-row {
+    background: #44475a;
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+
+  .release-kind { font-size: 16px; min-width: 20px; }
+  .release-episode .release-kind { color: #8be9fd; }
+  .release-movie .release-kind   { color: #ffb86c; }
+  .release-album .release-kind   { color: #ff79c6; }
+
+  .release-title { color: #f8f8f2; font-weight: bold; }
+  .release-sub   { color: #bd93f9; font-size: 11px; }
+
+  .release-status { font-size: 13px; }
+  .release-status.done    { color: #50fa7b; }
+  .release-status.pending { color: #ffb86c; }
 }

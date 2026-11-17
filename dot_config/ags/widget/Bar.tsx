@@ -2,7 +2,6 @@
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import app from "ags/gtk4/app"
 import DashboardButton from "./DashboardButton"
-import TodoButton from "./TodoButton"
 import Workspaces from "./Workspaces"
 import WindowTitle from "./WindowTitle"
 import Volume from "./Volume"
@@ -11,6 +10,7 @@ import Cmus from "./Cmus"
 import Notifications from "./Notifications"
 import Tray from "./Tray"
 import Weather from "./Weather"
+import Releases from "./Releases"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -28,13 +28,13 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       <box>
         <box hexpand halign={Gtk.Align.START} class="bar-left">
           <DashboardButton />
-          <TodoButton />
           <Workspaces />
           <WindowTitle />
         </box>
         <box halign={Gtk.Align.END} class="bar-right" spacing={10}>
           <Cmus />
           <Tray />
+          <Releases />
           <Notifications />
           <Volume />
           <Weather />

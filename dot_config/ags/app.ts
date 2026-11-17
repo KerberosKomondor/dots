@@ -4,28 +4,28 @@ import style from "./style.scss"
 import Bar from "./widget/Bar"
 import WeatherPopup from "./widget/WeatherPopup"
 import Dashboard from "./widget/Dashboard"
-import TodoPopup from "./widget/TodoPopup"
 import CalendarPopup from "./widget/CalendarPopup"
 import NotificationPopups from "./widget/NotificationPopups"
 import NotificationHistory from "./widget/NotificationHistory"
 import VolumePopup from "./widget/VolumePopup"
+import ReleasesPopup from "./widget/ReleasesPopup"
 import DictatePill from "./widget/DictatePill"
 import { createState } from "ags"
 
 export const [dashboardVisible, setDashboardVisible] = createState(false)
 export const [weatherVisible, setWeatherVisible] = createState(false)
-export const [todoVisible, setTodoVisible] = createState(false)
 export const [calendarVisible, setCalendarVisible] = createState(false)
 export const [notifHistoryVisible, setNotifHistoryVisible] = createState(false)
 export const [volumeVisible, setVolumeVisible] = createState(false)
+export const [releasesVisible, setReleasesVisible] = createState(false)
 
 function closeAllPopups(): void {
   setDashboardVisible(false)
   setWeatherVisible(false)
-  setTodoVisible(false)
   setCalendarVisible(false)
   setNotifHistoryVisible(false)
   setVolumeVisible(false)
+  setReleasesVisible(false)
 }
 
 // Toggle one popup, closing any other popups that are open
@@ -42,6 +42,10 @@ app.start({
       closeAllPopups()
       setNotifHistoryVisible(true)
       res("ok")
+    } else if (argv[0] === "show-releases") {
+      closeAllPopups()
+      setReleasesVisible(true)
+      res("ok")
     } else {
       res("unknown")
     }
@@ -53,11 +57,11 @@ app.start({
     monitors.filter((m: any) => m.get_geometry().x > 0).map(Bar)
     Dashboard(rightMonitor)
     WeatherPopup(rightMonitor)
-    TodoPopup(rightMonitor)
     CalendarPopup(rightMonitor)
     NotificationPopups(rightMonitor)
     NotificationHistory(rightMonitor)
     VolumePopup(rightMonitor)
+    ReleasesPopup(rightMonitor)
     DictatePill(rightMonitor)
   },
 })

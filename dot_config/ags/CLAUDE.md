@@ -22,13 +22,13 @@ ags bundle ~/.config/ags/app.ts /tmp/check.js
 
 | File | Responsibility |
 |------|----------------|
-| `app.ts` | Entry point, global state (`todoVisible`, `dashboardVisible`, `weatherVisible`, `volumeVisible`), popup instantiation |
+| `app.ts` | Entry point, global state (`dashboardVisible`, `weatherVisible`, `volumeVisible`, `releasesVisible`), popup instantiation |
 | `style.scss` | All styles — Dracula theme throughout |
 | `service/weather.ts` | Weather polling, Open-Meteo API |
-| `service/todos.ts` | Todo file I/O, badge count state |
+| `service/releases.ts` | Sonarr/Radarr/Lidarr calendar polling (15 min + on popup open); keys from `~/.local/share/ags/arr.env` |
 | `service/audio.ts` | AstalWp reactive wrapper — speaker/mic/stream lists, default-device volume & mute |
 | `widget/Bar.tsx` | Bar window, left/right clusters |
-| `widget/TodoPopup.tsx` | Todo popup — day tabs, item list, add flow |
+| `widget/Releases.tsx` / `ReleasesPopup.tsx` | Bar icon + badge (hidden when nothing releases today) / today's release list |
 | `widget/Dashboard.tsx` | Dashboard popup — power, toggles |
 | `widget/VolumePopup.tsx` | Volume mixer popup — master volume + Output/Apps/Input tabs |
 
@@ -45,7 +45,7 @@ DP-1 (left, x=0) vs DP-2 (right, x=1920):
 monitors.filter(m => m.get_geometry().x > 0).map(Bar)  // DP-2 only
 ```
 
-All AGS windows (Bar, Dashboard, Weather/Todo/Calendar/Volume popups, NotificationPopups, NotificationHistory) intentionally live on DP-2 (right), even though DP-1 (left) is Hyprland's "primary" — AGS placement is user preference, not tied to primary. Don't assume `monitors[0]` is the right monitor — resolve it by geometry (`app.ts` does this via `rightMonitor`).
+All AGS windows (Bar, Dashboard, Weather/Calendar/Volume popups, NotificationPopups, NotificationHistory) intentionally live on DP-2 (right), even though DP-1 (left) is Hyprland's "primary" — AGS placement is user preference, not tied to primary. Don't assume `monitors[0]` is the right monitor — resolve it by geometry (`app.ts` does this via `rightMonitor`).
 
 ## Reactive primitives (gnim)
 
@@ -97,7 +97,7 @@ Must be `"ags/gtk4"` — if set to `"ags/gtk3"` the bundler includes the GTK3 js
 
 ## Popup pattern
 
-All popups (Dashboard, WeatherPopup, TodoPopup) follow the same pattern:
+All popups (Dashboard, WeatherPopup, CalendarPopup) follow the same pattern:
 
 ```typescript
 // app.ts
