@@ -193,6 +193,20 @@ alias chezmoi-claude='chezmoi --config ~/.config/chezmoi-claude/chezmoi.toml'
 # Claude Fight Club (Teams plan): separate config dir = separate login; shared
 # config is symlinked from ~/.claude (see ~/docs/claude-fight-club.md)
 alias claude-cfc='CLAUDE_CONFIG_DIR=$HOME/.claude-cfc claude'
+# Artifact tool off by default: its schema is ~15k tokens re-sent on every API
+# call and it's needed ~once a week. `claude-art` = unmodified claude (Artifact on);
+# relaunch a session with it via `claude-art --resume <session-id>`.
+# Subcommands pass through untouched, except `agents`, whose dispatched sessions
+# get a deny rule. See ~/docs/claude-code.md "Artifact tool off by default".
+claude() {
+  case "$1" in
+    agents) shift; command claude agents --settings '{"permissions":{"deny":["Artifact"]}}' "$@" ;;
+    attach|auth|auto-mode|doctor|gateway|import|install|logs|mcp|plugin|plugins|purge|respawn|rm|setup-token|stop|kill|ultrareview|update|upgrade)
+      command claude "$@" ;;
+    *) command claude --disallowedTools=Artifact "$@" ;;
+  esac
+}
+alias claude-art='command claude'
 
 _dn_select_file() {
   find . -name "$1" | fzf
